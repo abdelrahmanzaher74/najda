@@ -1,0 +1,435 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../app/theme.dart';
+import '../../../core/error/failure.dart';
+import '../../../l10n/app_localizations.dart';
+import '../data/incident_providers.dart';
+import '../data/models/incident.dart';
+import '../data/models/incident_status.dart';
+import 'cancel_sheet.dart';
+import 'labels.dart';
+
+class TrackingScreen extends ConsumerWidget {
+  final int incidentId;
+
+  const TrackingScreen({super.key, required this.incidentId});
+
+  Future<void> _openCancelSheet(BuildContext context, WidgetRef ref) async {
+    final cancelled = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => CancelSheet(incidentId: incidentId),
+    );
+    if (cancelled != true || !context.mounted) return;
+
+    // نعيد تشغيل المتابعة عشان الحالة الجديدة تظهر فورًا
+    ref.invalidate(incidentStreamProvider(incidentId));
+
+    final l10n = AppLocalizations.of(context);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.reportCancelled)));
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final state = ref.watch(incidentStreamProvider(incidentId));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${l10n.reportNumber} #$incidentId'),
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+      ),
+      body: SafeArea(
+        child: state.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => _ErrorView(
+            message: error is Failure
+                ? error.message
+                : const UnknownFailure().message,
+            onRetry: () => ref.invalidate(incidentStreamProvider(incidentId)),
+          ),
+          data: (incident) => _Content(
+            incident: incident,
+            onCancel: () => _openCancelSheet(context, ref),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  final Incident incident;
+  final VoidCallback onCancel;
+
+  const _Content({required this.incident, required this.onCancel});
+
+  IconData _statusIcon(IncidentStatus s) {
+    return switch (s) {
+      IncidentStatus.pending => Icons.schedule,
+      IncidentStatus.assigned => Icons.assignment_ind_outlined,
+      IncidentStatus.enRoute => Icons.directions_car_outlined,
+      IncidentStatus.onScene => Icons.place_outlined,
+      IncidentStatus.completed => Icons.check_circle_outline,
+      IncidentStatus.cancelled => Icons.cancel_outlined,
+      IncidentStatus.unknown => Icons.help_outline,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    final status = incident.status;
+
+    final isCancelled = status == IncidentStatus.cancelled;
+    final isCompleted = status == IncidentStatus.completed;
+    final tint = isCancelled
+        ? Colors.black45
+        : isCompleted
+        ? const Color(0xFF1F9D8B)
+        : AppColors.primary;
+
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // الحالة الحالية
+              Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: tint.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: tint,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        _statusIcon(status),
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            statusLabel(l10n, status),
+                            style: textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.foreground,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            incidentCategoryLabel(l10n, incident.category),
+                            style: textTheme.bodyMedium
+                                ?.copyWith(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // التقدم أو سبب الإلغاء
+              if (isCancelled)
+                _Card(
+                  title: l10n.reasonLabel,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (incident.cancellationCategory != null)
+                        Text(
+                          cancellationLabel(l10n, incident.cancellationCategory!),
+                          style: textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      if (incident.cancellationReason != null) ...[
+                        const SizedBox(height: 4),
+                        Text(incident.cancellationReason!),
+                      ],
+                    ],
+                  ),
+                )
+              else
+                _Card(
+                  title: l10n.progress,
+                  child: _Timeline(status: status),
+                ),
+              const SizedBox(height: 16),
+
+              // التفاصيل
+              _Card(
+                title: l10n.details,
+                child: Column(
+                  children: [
+                    _DetailRow(
+                      icon: Icons.personal_injury_outlined,
+                      label: l10n.injuredLabel,
+                      value: '${incident.injuredCount}',
+                    ),
+                    if (incident.latitude != null && incident.longitude != null)
+                      _DetailRow(
+                        icon: Icons.location_on_outlined,
+                        label: l10n.locationLabel,
+                        value:
+                        '${incident.latitude!.toStringAsFixed(4)}, ${incident.longitude!.toStringAsFixed(4)}',
+                      ),
+                    _DetailRow(
+                      icon: Icons.notes_outlined,
+                      label: l10n.whatsHappening,
+                      value: (incident.description?.isNotEmpty ?? false)
+                          ? incident.description!
+                          : l10n.noDescription,
+                    ),
+                  ],
+                ),
+              ),
+
+              if (status.canCancel) ...[
+                const SizedBox(height: 20),
+                OutlinedButton(
+                  onPressed: onCancel,
+                  child: Text(l10n.cancelReport),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Card extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const _Card({required this.title, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.black12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title.toUpperCase(),
+            style: textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.8,
+              color: AppColors.foreground,
+            ),
+          ),
+          const SizedBox(height: 12),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _Timeline extends StatelessWidget {
+  final IncidentStatus status;
+
+  const _Timeline({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final labels = [
+      l10n.statusPending,
+      l10n.statusAssigned,
+      l10n.statusEnRoute,
+      l10n.statusOnScene,
+      l10n.statusCompleted,
+    ];
+    final current = status.stepIndex;
+    final allDone = status == IncidentStatus.completed;
+
+    return Column(
+      children: [
+        for (var i = 0; i < labels.length; i++)
+          _TimelineRow(
+            label: labels[i],
+            done: allDone || i < current,
+            active: !allDone && i == current,
+            isLast: i == labels.length - 1,
+          ),
+      ],
+    );
+  }
+}
+
+class _TimelineRow extends StatelessWidget {
+  final String label;
+  final bool done;
+  final bool active;
+  final bool isLast;
+
+  const _TimelineRow({
+    required this.label,
+    required this.done,
+    required this.active,
+    required this.isLast,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final highlighted = done || active;
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: done ? AppColors.primary : Colors.white,
+                  border: Border.all(
+                    color: highlighted ? AppColors.primary : Colors.black26,
+                    width: 2,
+                  ),
+                ),
+                child: done
+                    ? const Icon(Icons.check, size: 14, color: Colors.white)
+                    : active
+                    ? Center(
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                )
+                    : null,
+              ),
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: 2,
+                    color: done ? AppColors.primary : Colors.black12,
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: isLast ? 0 : 18),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontWeight: active ? FontWeight.bold : FontWeight.w500,
+                  color: highlighted ? AppColors.foreground : Colors.black45,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DetailRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _DetailRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 20, color: AppColors.primary),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: textTheme.labelSmall?.copyWith(color: Colors.black54),
+                ),
+                Text(value, style: textTheme.bodyMedium),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _ErrorView({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: AppColors.primary),
+            const SizedBox(height: 12),
+            Text(message, textAlign: TextAlign.center),
+            const SizedBox(height: 12),
+            TextButton(onPressed: onRetry, child: Text(l10n.tryAgain)),
+          ],
+        ),
+      ),
+    );
+  }
+}
