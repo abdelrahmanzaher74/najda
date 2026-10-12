@@ -1,3 +1,4 @@
+import 'models/assigned_unit.dart';
 import 'models/cancellation_category.dart';
 import 'models/create_incident_request.dart';
 import 'models/incident.dart';
@@ -13,6 +14,9 @@ abstract class IncidentRepository {
 
   /// متابعة البلاغ (بعدين: WebSocket /topic/emergency/{id})
   Stream<Incident> watchIncident(int id);
+
+  /// الوحدات اللي قبلت الحالة ومواقعها الحالية (من missions و response_units).
+  Stream<List<AssignedUnit>> watchAssignedUnits(int incidentId);
 
   /// POST /api/incidents/{id}/cancel
   Future<Incident> cancelIncident(

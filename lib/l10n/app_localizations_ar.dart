@@ -533,4 +533,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get medicalSaved => 'تم حفظ التاريخ الطبي';
+
+  @override
+  String get unitsTitle => 'المسعفون';
+
+  @override
+  String get unitAmbulance => 'إسعاف';
+
+  @override
+  String get unitFirstResponder => 'مستجيب أول';
+
+  @override
+  String get unitPolice => 'وحدة شرطة';
+
+  @override
+  String get unitFire => 'وحدة إطفاء';
+
+  @override
+  String get unitAccepted => 'قبل الحالة';
+
+  @override
+  String get unitEnRoute => 'في الطريق';
+
+  @override
+  String get unitArrived => 'وصل';
+
+  @override
+  String get noUnitsYet => 'في انتظار تعيين مسعف…';
+
+  @override
+  String get yourLocation => 'موقعك';
+
+  @override
+  String get minutesShort => 'د';
+
+  @override
+  String get kmShort => 'كم';
+
+  @override
+  String get metersShort => 'م';
+
+  @override
+  String get etaApproxNote => 'المسافات والأوقات تقريبية.';
+
+  @override
+  String get showAll => 'عرض الجميع';
 }

@@ -1,6 +1,7 @@
 import '../../../core/error/failure.dart';
 import '../../../core/network/connectivity_helper.dart';
 import 'incident_repository.dart';
+import 'models/assigned_unit.dart';
 import 'models/cancellation_category.dart';
 import 'models/create_incident_request.dart';
 import 'models/incident.dart';
@@ -70,6 +71,89 @@ class FakeIncidentRepository implements IncidentRepository {
       if (incident.status.isFinished) return;
       await Future.delayed(const Duration(seconds: 3));
     }
+  }
+
+  /// بيحاكي وحدتين: First Responder (حوالي 1 كم) وإسعاف (حوالي 2.7 كم).
+  /// بيظهروا بعد 20 ثانية، وبيتحركوا من الثانية 30 لحد ما يوصلوا.
+  @override
+  Stream<List<AssignedUnit>> watchAssignedUnits(int incidentId) async* {
+    while (true) {
+      final incident = _current(incidentId);
+      if (incident.status.isFinished) {
+        yield const [];
+        return;
+      }
+
+      final stored = _items[incidentId]!;
+      final seconds =
+          DateTime.now().difference(stored.createdAt!).inMilliseconds / 1000;
+      final incLat = incident.latitude ?? 0;
+      final incLon = incident.longitude ?? 0;
+
+      if (seconds < 20) {
+        yield const [];
+      } else {
+        yield [
+          _simulate(
+            id: 1,
+            type: ResponderType.firstResponder,
+            firstName: 'Karim',
+            dLat: 0.0075,
+            dLon: 0.006,
+            moveStart: 30,
+            arrive: 40,
+            seconds: seconds,
+            incLat: incLat,
+            incLon: incLon,
+          ),
+          _simulate(
+            id: 2,
+            type: ResponderType.ambulance,
+            dLat: -0.02,
+            dLon: -0.016,
+            moveStart: 30,
+            arrive: 48,
+            seconds: seconds,
+            incLat: incLat,
+            incLon: incLon,
+          ),
+        ];
+      }
+
+      await Future.delayed(const Duration(seconds: 2));
+    }
+  }
+
+  AssignedUnit _simulate({
+    required int id,
+    required ResponderType type,
+    String? firstName,
+    required double dLat,
+    required double dLon,
+    required double moveStart,
+    required double arrive,
+    required double seconds,
+    required double incLat,
+    required double incLon,
+  }) {
+    final progress =
+    ((seconds - moveStart) / (arrive - moveStart)).clamp(0.0, 1.0).toDouble();
+    final remaining = 1 - progress;
+
+    final status = seconds < moveStart
+        ? UnitStatus.accepted
+        : progress < 1
+        ? UnitStatus.enRoute
+        : UnitStatus.arrived;
+
+    return AssignedUnit(
+      id: id,
+      type: type,
+      firstName: firstName,
+      status: status,
+      latitude: incLat + dLat * remaining,
+      longitude: incLon + dLon * remaining,
+    );
   }
 
   @override

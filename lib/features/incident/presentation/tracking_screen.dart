@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/error/failure.dart';
+import '../../../core/geo/geo_utils.dart';
 import '../../../l10n/app_localizations.dart';
 import '../data/incident_providers.dart';
+import '../data/models/assigned_unit.dart';
 import '../data/models/incident.dart';
 import '../data/models/incident_status.dart';
 import 'cancel_sheet.dart';
 import 'labels.dart';
+import 'unit_style.dart';
+import 'widgets/tracking_map.dart';
 
 class TrackingScreen extends ConsumerWidget {
   final int incidentId;
@@ -36,6 +41,8 @@ class TrackingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(incidentStreamProvider(incidentId));
+    final units = ref.watch(assignedUnitsProvider(incidentId)).value ??
+        const <AssignedUnit>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -54,6 +61,7 @@ class TrackingScreen extends ConsumerWidget {
           ),
           data: (incident) => _Content(
             incident: incident,
+            units: units,
             onCancel: () => _openCancelSheet(context, ref),
           ),
         ),
@@ -64,9 +72,14 @@ class TrackingScreen extends ConsumerWidget {
 
 class _Content extends StatelessWidget {
   final Incident incident;
+  final List<AssignedUnit> units;
   final VoidCallback onCancel;
 
-  const _Content({required this.incident, required this.onCancel});
+  const _Content({
+    required this.incident,
+    required this.units,
+    required this.onCancel,
+  });
 
   IconData _statusIcon(IncidentStatus s) {
     return switch (s) {
@@ -93,6 +106,11 @@ class _Content extends StatelessWidget {
         : isCompleted
         ? const Color(0xFF1F9D8B)
         : AppColors.primary;
+
+    final hasLocation = incident.latitude != null && incident.longitude != null;
+    final incidentPoint = hasLocation
+        ? LatLng(incident.latitude!, incident.longitude!)
+        : null;
 
     return Center(
       child: SingleChildScrollView(
@@ -150,6 +168,17 @@ class _Content extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
+              // الخريطة والوحدات (طول ما البلاغ شغال)
+              if (!status.isFinished && incidentPoint != null) ...[
+                TrackingMap(incident: incidentPoint, units: units),
+                const SizedBox(height: 16),
+                _UnitsSection(
+                  units: units,
+                  incident: incidentPoint,
+                  status: status,
+                ),
+              ],
+
               // التقدم أو سبب الإلغاء
               if (isCancelled)
                 _Card(
@@ -188,7 +217,7 @@ class _Content extends StatelessWidget {
                       label: l10n.injuredLabel,
                       value: '${incident.injuredCount}',
                     ),
-                    if (incident.latitude != null && incident.longitude != null)
+                    if (hasLocation)
                       _DetailRow(
                         icon: Icons.location_on_outlined,
                         label: l10n.locationLabel,
@@ -216,6 +245,152 @@ class _Content extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// قايمة الوحدات المعيّنة: النوع والحالة والمسافة والوقت المتوقع.
+class _UnitsSection extends StatelessWidget {
+  final List<AssignedUnit> units;
+  final LatLng incident;
+  final IncidentStatus status;
+
+  const _UnitsSection({
+    required this.units,
+    required this.incident,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+
+    if (units.isEmpty) {
+      // لسه مفيش وحدة: بنعرض رسالة الانتظار في أول حالة بس
+      if (status != IncidentStatus.pending) return const SizedBox.shrink();
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: _Card(
+          title: l10n.unitsTitle,
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.noUnitsYet,
+                  style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: _Card(
+        title: l10n.unitsTitle,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final unit in units) _UnitTile(unit: unit, incident: incident),
+            const SizedBox(height: 4),
+            Text(
+              l10n.etaApproxNote,
+              style: textTheme.labelSmall?.copyWith(color: Colors.black45),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UnitTile extends StatelessWidget {
+  final AssignedUnit unit;
+  final LatLng incident;
+
+  const _UnitTile({required this.unit, required this.incident});
+
+  String _distanceText(AppLocalizations l10n, double meters) {
+    if (meters < 1000) return '${meters.round()} ${l10n.metersShort}';
+    return '${(meters / 1000).toStringAsFixed(1)} ${l10n.kmShort}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+
+    final color = unitColor(unit.type);
+    final arrived = unit.status == UnitStatus.arrived;
+    final meters = distanceMeters(
+      unit.latitude,
+      unit.longitude,
+      incident.latitude,
+      incident.longitude,
+    );
+
+    final typeLabel = unitTypeLabel(l10n, unit.type);
+    final title =
+    unit.firstName == null ? typeLabel : '$typeLabel · ${unit.firstName}';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            child: Icon(unitIcon(unit.type), color: Colors.white, size: 22),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.foreground,
+                  ),
+                ),
+                Text(
+                  unitStatusLabel(l10n, unit.status),
+                  style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          if (arrived)
+            const Icon(Icons.check_circle, color: Color(0xFF1F9D8B))
+          else
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  _distanceText(l10n, meters),
+                  style: textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  '≈ ${unit.type.etaMinutes(meters)} ${l10n.minutesShort}',
+                  style: textTheme.bodySmall?.copyWith(color: color),
+                ),
+              ],
+            ),
+        ],
       ),
     );
   }

@@ -170,5 +170,20 @@
   "contactNameRequired": "Please enter the contact’s name",
   "saveAndContinue": "Save and continue",
   "skipForNow": "Skip for now",
-  "medicalSaved": "Medical history saved"
+  "medicalSaved": "Medical history saved",
+  "unitsTitle": "Responders",
+  "unitAmbulance": "Ambulance",
+  "unitFirstResponder": "First responder",
+  "unitPolice": "Police unit",
+  "unitFire": "Fire unit",
+  "unitAccepted": "Accepted the case",
+  "unitEnRoute": "On the way",
+  "unitArrived": "Arrived",
+  "noUnitsYet": "Waiting for a responder to be assigned…",
+  "yourLocation": "Your location",
+  "minutesShort": "min",
+  "kmShort": "km",
+  "metersShort": "m",
+  "etaApproxNote": "Distances and times are approximate.",
+  "showAll": "Show everyone"
 }

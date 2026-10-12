@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'fake_incident_repository.dart';
 import 'incident_repository.dart';
+import 'models/assigned_unit.dart';
 import 'models/incident.dart';
 
 /// وقت الربط الحقيقي: FakeIncidentRepository() ← RealIncidentRepository(...)
@@ -25,4 +26,10 @@ NotifierProvider<ActiveIncidentController, int?>(
 final incidentStreamProvider =
 StreamProvider.autoDispose.family<Incident, int>((ref, id) {
   return ref.read(incidentRepositoryProvider).watchIncident(id);
+});
+
+/// الوحدات المعيّنة على بلاغ ومواقعها (للخريطة).
+final assignedUnitsProvider = StreamProvider.autoDispose
+    .family<List<AssignedUnit>, int>((ref, incidentId) {
+  return ref.read(incidentRepositoryProvider).watchAssignedUnits(incidentId);
 });

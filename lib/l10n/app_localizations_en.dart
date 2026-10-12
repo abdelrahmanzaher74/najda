@@ -538,4 +538,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get medicalSaved => 'Medical history saved';
+
+  @override
+  String get unitsTitle => 'Responders';
+
+  @override
+  String get unitAmbulance => 'Ambulance';
+
+  @override
+  String get unitFirstResponder => 'First responder';
+
+  @override
+  String get unitPolice => 'Police unit';
+
+  @override
+  String get unitFire => 'Fire unit';
+
+  @override
+  String get unitAccepted => 'Accepted the case';
+
+  @override
+  String get unitEnRoute => 'On the way';
+
+  @override
+  String get unitArrived => 'Arrived';
+
+  @override
+  String get noUnitsYet => 'Waiting for a responder to be assigned…';
+
+  @override
+  String get yourLocation => 'Your location';
+
+  @override
+  String get minutesShort => 'min';
+
+  @override
+  String get kmShort => 'km';
+
+  @override
+  String get metersShort => 'm';
+
+  @override
+  String get etaApproxNote => 'Distances and times are approximate.';
+
+  @override
+  String get showAll => 'Show everyone';
 }

@@ -170,5 +170,20 @@
   "contactNameRequired": "من فضلك أدخل اسم جهة الاتصال",
   "saveAndContinue": "حفظ ومتابعة",
   "skipForNow": "تخطّي الآن",
-  "medicalSaved": "تم حفظ التاريخ الطبي"
+  "medicalSaved": "تم حفظ التاريخ الطبي",
+  "unitsTitle": "المسعفون",
+  "unitAmbulance": "إسعاف",
+  "unitFirstResponder": "مستجيب أول",
+  "unitPolice": "وحدة شرطة",
+  "unitFire": "وحدة إطفاء",
+  "unitAccepted": "قبل الحالة",
+  "unitEnRoute": "في الطريق",
+  "unitArrived": "وصل",
+  "noUnitsYet": "في انتظار تعيين مسعف…",
+  "yourLocation": "موقعك",
+  "minutesShort": "د",
+  "kmShort": "كم",
+  "metersShort": "م",
+  "etaApproxNote": "المسافات والأوقات تقريبية.",
+  "showAll": "عرض الجميع"
 }

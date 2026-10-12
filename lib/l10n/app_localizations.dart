@@ -1123,6 +1123,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Medical history saved'**
   String get medicalSaved;
+
+  /// No description provided for @unitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Responders'**
+  String get unitsTitle;
+
+  /// No description provided for @unitAmbulance.
+  ///
+  /// In en, this message translates to:
+  /// **'Ambulance'**
+  String get unitAmbulance;
+
+  /// No description provided for @unitFirstResponder.
+  ///
+  /// In en, this message translates to:
+  /// **'First responder'**
+  String get unitFirstResponder;
+
+  /// No description provided for @unitPolice.
+  ///
+  /// In en, this message translates to:
+  /// **'Police unit'**
+  String get unitPolice;
+
+  /// No description provided for @unitFire.
+  ///
+  /// In en, this message translates to:
+  /// **'Fire unit'**
+  String get unitFire;
+
+  /// No description provided for @unitAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted the case'**
+  String get unitAccepted;
+
+  /// No description provided for @unitEnRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'On the way'**
+  String get unitEnRoute;
+
+  /// No description provided for @unitArrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get unitArrived;
+
+  /// No description provided for @noUnitsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for a responder to be assigned…'**
+  String get noUnitsYet;
+
+  /// No description provided for @yourLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location'**
+  String get yourLocation;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get minutesShort;
+
+  /// No description provided for @kmShort.
+  ///
+  /// In en, this message translates to:
+  /// **'km'**
+  String get kmShort;
+
+  /// No description provided for @metersShort.
+  ///
+  /// In en, this message translates to:
+  /// **'m'**
+  String get metersShort;
+
+  /// No description provided for @etaApproxNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Distances and times are approximate.'**
+  String get etaApproxNote;
+
+  /// No description provided for @showAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show everyone'**
+  String get showAll;
 }
 
 class _AppLocalizationsDelegate
