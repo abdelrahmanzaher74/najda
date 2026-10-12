@@ -185,5 +185,19 @@
   "kmShort": "km",
   "metersShort": "m",
   "etaApproxNote": "Distances and times are approximate.",
-  "showAll": "Show everyone"
+  "showAll": "Show everyone",
+  "chatTitle": "Chat",
+  "chatWithDispatcher": "Chat with dispatcher",
+  "chatCardSubtitle": "Ask questions or share updates",
+  "chatEmpty": "No messages yet. Tell the dispatcher anything that can help the responders.",
+  "chatHint": "Type a message…",
+  "chatClosed": "This report is closed, so the chat is read-only.",
+  "chatSendFailed": "Couldn’t send your message. Please try again.",
+  "roleDispatcher": "Dispatcher",
+  "roleAdmin": "Admin",
+  "roleYou": "You",
+  "roleStaff": "NAJDA team",
+  "adminJoined": "An admin joined the conversation",
+  "newMessage": "New message",
+  "send": "Send"
 }

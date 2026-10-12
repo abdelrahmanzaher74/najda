@@ -185,5 +185,19 @@
   "kmShort": "كم",
   "metersShort": "م",
   "etaApproxNote": "المسافات والأوقات تقريبية.",
-  "showAll": "عرض الجميع"
+  "showAll": "عرض الجميع",
+  "chatTitle": "المحادثة",
+  "chatWithDispatcher": "تحدث مع غرفة العمليات",
+  "chatCardSubtitle": "اسأل أو شارك أي تحديث",
+  "chatEmpty": "لا توجد رسائل بعد. اكتب لغرفة العمليات أي معلومة تساعد المسعفين.",
+  "chatHint": "اكتب رسالة…",
+  "chatClosed": "هذا البلاغ مغلق، فالمحادثة للقراءة فقط.",
+  "chatSendFailed": "تعذّر إرسال رسالتك. حاول مرة أخرى.",
+  "roleDispatcher": "غرفة العمليات",
+  "roleAdmin": "الإدارة",
+  "roleYou": "أنت",
+  "roleStaff": "فريق نجدة",
+  "adminJoined": "انضم مسؤول من الإدارة إلى المحادثة",
+  "newMessage": "رسالة جديدة",
+  "send": "إرسال"
 }

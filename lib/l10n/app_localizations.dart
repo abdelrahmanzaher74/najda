@@ -1213,6 +1213,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show everyone'**
   String get showAll;
+
+  /// No description provided for @chatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get chatTitle;
+
+  /// No description provided for @chatWithDispatcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat with dispatcher'**
+  String get chatWithDispatcher;
+
+  /// No description provided for @chatCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask questions or share updates'**
+  String get chatCardSubtitle;
+
+  /// No description provided for @chatEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet. Tell the dispatcher anything that can help the responders.'**
+  String get chatEmpty;
+
+  /// No description provided for @chatHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message…'**
+  String get chatHint;
+
+  /// No description provided for @chatClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'This report is closed, so the chat is read-only.'**
+  String get chatClosed;
+
+  /// No description provided for @chatSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t send your message. Please try again.'**
+  String get chatSendFailed;
+
+  /// No description provided for @roleDispatcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatcher'**
+  String get roleDispatcher;
+
+  /// No description provided for @roleAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get roleAdmin;
+
+  /// No description provided for @roleYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get roleYou;
+
+  /// No description provided for @roleStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'NAJDA team'**
+  String get roleStaff;
+
+  /// No description provided for @adminJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'An admin joined the conversation'**
+  String get adminJoined;
+
+  /// No description provided for @newMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get newMessage;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
 }
 
 class _AppLocalizationsDelegate

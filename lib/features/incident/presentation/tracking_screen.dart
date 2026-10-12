@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/geo/geo_utils.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../chat/data/chat_providers.dart';
 import '../data/incident_providers.dart';
 import '../data/models/assigned_unit.dart';
 import '../data/models/incident.dart';
@@ -179,6 +181,12 @@ class _Content extends StatelessWidget {
                 ),
               ],
 
+              // الشات مع غرفة العمليات (بيفضل متاح للقراءة بعد انتهاء البلاغ)
+              if (!isCancelled) ...[
+                _ChatCard(incidentId: incident.id),
+                const SizedBox(height: 16),
+              ],
+
               // التقدم أو سبب الإلغاء
               if (isCancelled)
                 _Card(
@@ -244,6 +252,90 @@ class _Content extends StatelessWidget {
               ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// كارت فتح الشات، وعليه علامة لو في رسالة جديدة.
+class _ChatCard extends ConsumerWidget {
+  final int incidentId;
+
+  const _ChatCard({required this.incidentId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    final unread = ref.watch(unreadChatProvider(incidentId));
+
+    return InkWell(
+      onTap: () => context.push('/citizen/incident/$incidentId/chat'),
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: unread ? AppColors.primary : Colors.black12,
+            width: unread ? 1.5 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.chat_bubble_outline,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.chatWithDispatcher,
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.foreground,
+                    ),
+                  ),
+                  Text(
+                    l10n.chatCardSubtitle,
+                    style:
+                    textTheme.bodySmall?.copyWith(color: Colors.black54),
+                  ),
+                ],
+              ),
+            ),
+            if (unread)
+              Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  l10n.newMessage,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            const Icon(Icons.chevron_right, color: Colors.black38),
+          ],
         ),
       ),
     );

@@ -583,4 +583,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showAll => 'Show everyone';
+
+  @override
+  String get chatTitle => 'Chat';
+
+  @override
+  String get chatWithDispatcher => 'Chat with dispatcher';
+
+  @override
+  String get chatCardSubtitle => 'Ask questions or share updates';
+
+  @override
+  String get chatEmpty =>
+      'No messages yet. Tell the dispatcher anything that can help the responders.';
+
+  @override
+  String get chatHint => 'Type a message…';
+
+  @override
+  String get chatClosed => 'This report is closed, so the chat is read-only.';
+
+  @override
+  String get chatSendFailed => 'Couldn’t send your message. Please try again.';
+
+  @override
+  String get roleDispatcher => 'Dispatcher';
+
+  @override
+  String get roleAdmin => 'Admin';
+
+  @override
+  String get roleYou => 'You';
+
+  @override
+  String get roleStaff => 'NAJDA team';
+
+  @override
+  String get adminJoined => 'An admin joined the conversation';
+
+  @override
+  String get newMessage => 'New message';
+
+  @override
+  String get send => 'Send';
 }

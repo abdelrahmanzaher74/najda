@@ -578,4 +578,47 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get showAll => 'عرض الجميع';
+
+  @override
+  String get chatTitle => 'المحادثة';
+
+  @override
+  String get chatWithDispatcher => 'تحدث مع غرفة العمليات';
+
+  @override
+  String get chatCardSubtitle => 'اسأل أو شارك أي تحديث';
+
+  @override
+  String get chatEmpty =>
+      'لا توجد رسائل بعد. اكتب لغرفة العمليات أي معلومة تساعد المسعفين.';
+
+  @override
+  String get chatHint => 'اكتب رسالة…';
+
+  @override
+  String get chatClosed => 'هذا البلاغ مغلق، فالمحادثة للقراءة فقط.';
+
+  @override
+  String get chatSendFailed => 'تعذّر إرسال رسالتك. حاول مرة أخرى.';
+
+  @override
+  String get roleDispatcher => 'غرفة العمليات';
+
+  @override
+  String get roleAdmin => 'الإدارة';
+
+  @override
+  String get roleYou => 'أنت';
+
+  @override
+  String get roleStaff => 'فريق نجدة';
+
+  @override
+  String get adminJoined => 'انضم مسؤول من الإدارة إلى المحادثة';
+
+  @override
+  String get newMessage => 'رسالة جديدة';
+
+  @override
+  String get send => 'إرسال';
 }
