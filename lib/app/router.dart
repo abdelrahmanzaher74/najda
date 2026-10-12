@@ -9,6 +9,7 @@ import '../features/auth/presentation/register_screen.dart';
 import '../features/auth/presentation/session_controller.dart';
 import '../features/auth/presentation/splash_screen.dart';
 import '../features/chat/presentation/chat_screen.dart';
+import '../features/guidance/presentation/guidance_screen.dart';
 import '../features/home/presentation/citizen_home_screen.dart';
 import '../features/home/presentation/field_home_screen.dart';
 import '../features/home/presentation/web_only_screen.dart';
@@ -137,6 +138,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
           return ChatScreen(incidentId: id);
+        },
+      ),
+      GoRoute(
+        path: '/citizen/incident/:id/guidance',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return GuidanceScreen(incidentId: id);
         },
       ),
       GoRoute(

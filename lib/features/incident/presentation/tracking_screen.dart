@@ -8,6 +8,7 @@ import '../../../core/error/failure.dart';
 import '../../../core/geo/geo_utils.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../chat/data/chat_providers.dart';
+import '../../guidance/data/guidance_providers.dart';
 import '../data/incident_providers.dart';
 import '../data/models/assigned_unit.dart';
 import '../data/models/incident.dart';
@@ -181,6 +182,12 @@ class _Content extends StatelessWidget {
                 ),
               ],
 
+              // إرشادات "لحد ما المساعدة توصل" (طول ما البلاغ شغال)
+              if (!status.isFinished) ...[
+                _GuidanceSummaryCard(incident: incident),
+                const SizedBox(height: 16),
+              ],
+
               // الشات مع غرفة العمليات (بيفضل متاح للقراءة بعد انتهاء البلاغ)
               if (!isCancelled) ...[
                 _ChatCard(incidentId: incident.id),
@@ -253,6 +260,121 @@ class _Content extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// ملخص الإرشادات: أول 3 خطوات من الكارت العام + زر لباقي الكروت.
+class _GuidanceSummaryCard extends ConsumerWidget {
+  final Incident incident;
+
+  const _GuidanceSummaryCard({required this.incident});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+
+    final cards = ref
+        .watch(
+      guidanceProvider((
+      category: incident.category,
+      injuredCount: incident.injuredCount,
+      languageCode: Localizations.localeOf(context).languageCode,
+      )),
+    )
+        .value;
+
+    if (cards == null || cards.isEmpty) return const SizedBox.shrink();
+
+    final general = cards.firstWhere(
+          (c) => c.isGeneral,
+      orElse: () => cards.first,
+    );
+    final topSteps = general.steps.take(3).toList();
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.health_and_safety_outlined,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.whileYouWait,
+                      style: textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.foreground,
+                      ),
+                    ),
+                    Text(
+                      general.title,
+                      style: textTheme.bodySmall
+                          ?.copyWith(color: Colors.black54),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          for (var i = 0; i < topSteps.length; i++)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${i + 1}.',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      topSteps[i],
+                      style: textTheme.bodyMedium
+                          ?.copyWith(color: AppColors.foreground),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 4),
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: TextButton(
+              onPressed: () =>
+                  context.push('/citizen/incident/${incident.id}/guidance'),
+              child: Text(l10n.seeAllGuidance),
+            ),
+          ),
+        ],
       ),
     );
   }

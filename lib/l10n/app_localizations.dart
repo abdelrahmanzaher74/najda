@@ -1297,6 +1297,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send'**
   String get send;
+
+  /// No description provided for @whileYouWait.
+  ///
+  /// In en, this message translates to:
+  /// **'While you wait'**
+  String get whileYouWait;
+
+  /// No description provided for @guidanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Until help arrives'**
+  String get guidanceTitle;
+
+  /// No description provided for @seeAllGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'See all steps'**
+  String get seeAllGuidance;
+
+  /// No description provided for @guidanceDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'General first-aid information. It doesn’t replace professional care. If the dispatcher tells you something different, follow the dispatcher.'**
+  String get guidanceDisclaimer;
+
+  /// No description provided for @guidanceImportant.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get guidanceImportant;
 }
 
 class _AppLocalizationsDelegate

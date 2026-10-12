@@ -199,5 +199,10 @@
   "roleStaff": "NAJDA team",
   "adminJoined": "An admin joined the conversation",
   "newMessage": "New message",
-  "send": "Send"
+  "send": "Send",
+  "whileYouWait": "While you wait",
+  "guidanceTitle": "Until help arrives",
+  "seeAllGuidance": "See all steps",
+  "guidanceDisclaimer": "General first-aid information. It doesn’t replace professional care. If the dispatcher tells you something different, follow the dispatcher.",
+  "guidanceImportant": "Important"
 }

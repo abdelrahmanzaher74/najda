@@ -626,4 +626,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get send => 'Send';
+
+  @override
+  String get whileYouWait => 'While you wait';
+
+  @override
+  String get guidanceTitle => 'Until help arrives';
+
+  @override
+  String get seeAllGuidance => 'See all steps';
+
+  @override
+  String get guidanceDisclaimer =>
+      'General first-aid information. It doesn’t replace professional care. If the dispatcher tells you something different, follow the dispatcher.';
+
+  @override
+  String get guidanceImportant => 'Important';
 }

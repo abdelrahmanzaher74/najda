@@ -621,4 +621,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get send => 'إرسال';
+
+  @override
+  String get whileYouWait => 'لحين وصول المساعدة';
+
+  @override
+  String get guidanceTitle => 'حتى تصل المساعدة';
+
+  @override
+  String get seeAllGuidance => 'عرض كل الخطوات';
+
+  @override
+  String get guidanceDisclaimer =>
+      'معلومات إسعاف أولي عامة، ولا تغني عن الرعاية الطبية. إذا طلبت منك غرفة العمليات شيئًا مختلفًا فاتبع تعليماتها.';
+
+  @override
+  String get guidanceImportant => 'مهم';
 }
