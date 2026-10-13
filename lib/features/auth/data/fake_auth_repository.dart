@@ -2,6 +2,7 @@ import '../../../core/error/failure.dart';
 import 'auth_repository.dart';
 import 'models/app_user.dart';
 import 'models/email_verification.dart';
+import 'models/gender.dart';
 import 'models/register_request.dart';
 import 'models/user_role.dart';
 
@@ -11,6 +12,15 @@ class FakeAuthRepository implements AuthRepository {
 
   /// عدد المحاولات الغلط لكل إيميل (بيحاكي attempts في الجدول)
   final Map<String, int> _codeAttempts = {};
+
+  /// المستخدم الحالي (بيحاكي اللي الـ Backend عارفه من الـ token)
+  AppUser? _user;
+
+  /// كلمة المرور الحالية (بتتغيّر فعلًا لما تغيّرها من البروفايل)
+  String _password = '123456';
+
+  String? _pendingPhone;
+  int _phoneAttempts = 0;
 
   /// للتجربة بس: الدور بيتحدد من اسم الإيميل
   /// (ambulance@test.com ← Ambulance، admin@test.com ← Admin، وهكذا)
@@ -37,6 +47,12 @@ class FakeAuthRepository implements AuthRepository {
     }
   }
 
+  AppUser _requireUser() {
+    final user = _user;
+    if (user == null) throw const AuthFailure('Not signed in');
+    return user;
+  }
+
   @override
   Future<AppUser> signIn({
     required String email,
@@ -44,21 +60,27 @@ class FakeAuthRepository implements AuthRepository {
   }) async {
     await Future.delayed(const Duration(milliseconds: 800));
 
-    if (password != '123456') {
+    if (password != _password) {
       throw const AuthFailure('Invalid email or password');
     }
 
-    return AppUser(
+    final user = AppUser(
       id: 1,
       firebaseUid: 'fake-uid',
       firstName: 'Test',
       lastName: 'User',
       email: email,
-      phone: '01000000000',
+      phone: '+201000000000',
       address: 'Test address',
+      gender: 'MALE',
       profileCompleted: true,
       role: _roleFromEmail(email),
+      emailVerified: true,
+      // للتجربة: إيميل يبدأ بـ google بيحاكي حساب Google (من غير كلمة مرور)
+      hasPassword: !email.toLowerCase().startsWith('google'),
     );
+    _user = user;
+    return user;
   }
 
   @override
@@ -121,7 +143,7 @@ class FakeAuthRepository implements AuthRepository {
       throw const ValidationFailure('Email not verified');
     }
 
-    return AppUser(
+    final user = AppUser(
       id: 2,
       firebaseUid: 'fake-uid-new',
       firstName: request.firstName,
@@ -132,7 +154,11 @@ class FakeAuthRepository implements AuthRepository {
       gender: request.gender.code,
       profileCompleted: true,
       role: UserRole.citizen,
+      emailVerified: true,
     );
+    _user = user;
+    _password = request.password;
+    return user;
   }
 
   @override
@@ -146,5 +172,87 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() async {}
+  Future<AppUser> updateProfile({
+    required String firstName,
+    required String lastName,
+    required Gender gender,
+    required String address,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 700));
+
+    final updated = _requireUser().copyWith(
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender.code,
+      address: address,
+    );
+    _user = updated;
+    return updated;
+  }
+
+  @override
+  Future<DateTime> startPhoneChange(String phoneE164) async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    _requireUser();
+
+    // للتجربة: الرقم ده بيحاكي رقم مستخدم عند حد تاني
+    if (phoneE164 == '+201111111111') {
+      throw const ValidationFailure('This phone number is already used');
+    }
+
+    _pendingPhone = phoneE164;
+    _phoneAttempts = 0;
+    return DateTime.now().add(const Duration(seconds: 30));
+  }
+
+  @override
+  Future<AppUser> confirmPhoneChange({
+    required String phoneE164,
+    required String code,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    final user = _requireUser();
+
+    if (_pendingPhone != phoneE164) {
+      throw const ValidationFailure('Please request a new code first.');
+    }
+    if (_phoneAttempts >= _maxAttempts) {
+      throw const ValidationFailure(
+        'Too many attempts. Please request a new code.',
+      );
+    }
+    if (code != _fakeCode) {
+      _phoneAttempts++;
+      final left = _maxAttempts - _phoneAttempts;
+      throw ValidationFailure(
+        left > 0
+            ? 'Wrong code. $left attempts left.'
+            : 'Too many attempts. Please request a new code.',
+      );
+    }
+
+    final updated = user.copyWith(phone: phoneE164, phoneVerified: true);
+    _user = updated;
+    _pendingPhone = null;
+    return updated;
+  }
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    _requireUser();
+
+    if (currentPassword != _password) {
+      throw const AuthFailure('Current password is incorrect');
+    }
+    _password = newPassword;
+  }
+
+  @override
+  Future<void> signOut() async {
+    _user = null;
+  }
 }

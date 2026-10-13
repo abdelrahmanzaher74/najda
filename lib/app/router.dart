@@ -21,6 +21,7 @@ import '../features/incident/presentation/report_screen.dart';
 import '../features/incident/presentation/tracking_screen.dart';
 import '../features/medical/data/medical_providers.dart';
 import '../features/medical/presentation/medical_history_screen.dart';
+import '../features/profile/presentation/profile_screen.dart';
 
 const _publicRoutes = ['/', '/login', '/register', '/forgot-password'];
 const _medicalHistoryRoute = '/citizen/medical-history';
@@ -114,6 +115,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: _medicalHistoryRoute,
         builder: (context, state) => const MedicalHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/citizen/profile',
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/citizen/profile/medical',
+        builder: (context, state) => const MedicalHistoryScreen(editing: true),
       ),
       GoRoute(
         path: '/citizen/report',

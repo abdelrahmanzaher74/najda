@@ -64,16 +64,10 @@ class CitizenHomeScreen extends ConsumerWidget {
               // الهيدر
               Row(
                 children: [
-                  // مؤقتًا: الضغط على اللوجو بيفتح تسجيل الخروج
-                  PopupMenuButton<String>(
-                    onSelected: (_) =>
-                        ref.read(sessionProvider.notifier).signOut(),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 'signout',
-                        child: Text(l10n.signOut),
-                      ),
-                    ],
+                  // اللوجو بيفتح البروفايل
+                  InkWell(
+                    onTap: () => context.push('/citizen/profile'),
+                    customBorder: const CircleBorder(),
                     child: const _LogoAvatar(),
                   ),
                   const SizedBox(width: 12),

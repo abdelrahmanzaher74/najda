@@ -1327,6 +1327,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Important'**
   String get guidanceImportant;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get personalInfo;
+
+  /// No description provided for @contactInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactInfo;
+
+  /// No description provided for @editLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editLabel;
+
+  /// No description provided for @editProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit personal information'**
+  String get editProfileTitle;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @profileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get profileUpdated;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get fullNameLabel;
+
+  /// No description provided for @verifiedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verifiedLabel;
+
+  /// No description provided for @notVerifiedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not verified'**
+  String get notVerifiedLabel;
+
+  /// No description provided for @changePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Change phone number'**
+  String get changePhone;
+
+  /// No description provided for @verifyPhoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your phone number'**
+  String get verifyPhoneTitle;
+
+  /// No description provided for @newPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get newPhoneNumber;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get sendCode;
+
+  /// No description provided for @phoneCodeSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code by SMS to'**
+  String get phoneCodeSentTo;
+
+  /// No description provided for @phoneVerifiedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number verified'**
+  String get phoneVerifiedMessage;
+
+  /// No description provided for @useDifferentNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different number'**
+  String get useDifferentNumber;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @currentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @passwordChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed'**
+  String get passwordChanged;
+
+  /// No description provided for @googleAccountNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You signed in with Google, so there’s no password to change.'**
+  String get googleAccountNote;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Device language'**
+  String get languageSystem;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get languageArabic;
+
+  /// No description provided for @appSection.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get appSection;
+
+  /// No description provided for @healthSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get healthSection;
+
+  /// No description provided for @medicalHistoryRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood type, allergies, conditions, emergency contact'**
+  String get medicalHistoryRowHint;
+
+  /// No description provided for @becomeFirstResponder.
+  ///
+  /// In en, this message translates to:
+  /// **'Become a First Responder'**
+  String get becomeFirstResponder;
+
+  /// No description provided for @becomeFirstResponderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to help people nearby before the ambulance arrives'**
+  String get becomeFirstResponderHint;
+
+  /// No description provided for @legalSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get legalSection;
+
+  /// No description provided for @signOutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get signOutConfirmTitle;
+
+  /// No description provided for @signOutConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can sign in again anytime.'**
+  String get signOutConfirmBody;
+
+  /// No description provided for @roleCitizen.
+  ///
+  /// In en, this message translates to:
+  /// **'Citizen'**
+  String get roleCitizen;
+
+  /// No description provided for @roleFirstResponder.
+  ///
+  /// In en, this message translates to:
+  /// **'First responder'**
+  String get roleFirstResponder;
+
+  /// No description provided for @roleAmbulanceCrew.
+  ///
+  /// In en, this message translates to:
+  /// **'Ambulance crew'**
+  String get roleAmbulanceCrew;
+
+  /// No description provided for @roleFirefighter.
+  ///
+  /// In en, this message translates to:
+  /// **'Firefighter'**
+  String get roleFirefighter;
+
+  /// No description provided for @rolePolice.
+  ///
+  /// In en, this message translates to:
+  /// **'Police'**
+  String get rolePolice;
 }
 
 class _AppLocalizationsDelegate

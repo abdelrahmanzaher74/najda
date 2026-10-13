@@ -642,4 +642,127 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guidanceImportant => 'Important';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get personalInfo => 'Personal information';
+
+  @override
+  String get contactInfo => 'Contact';
+
+  @override
+  String get editLabel => 'Edit';
+
+  @override
+  String get editProfileTitle => 'Edit personal information';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get profileUpdated => 'Profile updated';
+
+  @override
+  String get fullNameLabel => 'Name';
+
+  @override
+  String get verifiedLabel => 'Verified';
+
+  @override
+  String get notVerifiedLabel => 'Not verified';
+
+  @override
+  String get changePhone => 'Change phone number';
+
+  @override
+  String get verifyPhoneTitle => 'Verify your phone number';
+
+  @override
+  String get newPhoneNumber => 'Phone number';
+
+  @override
+  String get sendCode => 'Send code';
+
+  @override
+  String get phoneCodeSentTo => 'We sent a 6-digit code by SMS to';
+
+  @override
+  String get phoneVerifiedMessage => 'Phone number verified';
+
+  @override
+  String get useDifferentNumber => 'Use a different number';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get changePassword => 'Change password';
+
+  @override
+  String get currentPassword => 'Current password';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get passwordChanged => 'Password changed';
+
+  @override
+  String get googleAccountNote =>
+      'You signed in with Google, so there’s no password to change.';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageSystem => 'Device language';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageArabic => 'العربية';
+
+  @override
+  String get appSection => 'App';
+
+  @override
+  String get healthSection => 'Health';
+
+  @override
+  String get medicalHistoryRowHint =>
+      'Blood type, allergies, conditions, emergency contact';
+
+  @override
+  String get becomeFirstResponder => 'Become a First Responder';
+
+  @override
+  String get becomeFirstResponderHint =>
+      'Apply to help people nearby before the ambulance arrives';
+
+  @override
+  String get legalSection => 'Legal';
+
+  @override
+  String get signOutConfirmTitle => 'Sign out?';
+
+  @override
+  String get signOutConfirmBody => 'You can sign in again anytime.';
+
+  @override
+  String get roleCitizen => 'Citizen';
+
+  @override
+  String get roleFirstResponder => 'First responder';
+
+  @override
+  String get roleAmbulanceCrew => 'Ambulance crew';
+
+  @override
+  String get roleFirefighter => 'Firefighter';
+
+  @override
+  String get rolePolice => 'Police';
 }

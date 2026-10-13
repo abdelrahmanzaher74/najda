@@ -15,6 +15,12 @@ class AppUser {
   final bool enabled;
   final UserRole role;
 
+  /// حالة تأكيد الإيميل (بتيجي من Firebase، مش من جدول users).
+  final bool emailVerified;
+
+  /// false لحسابات Google (مفيش كلمة مرور تتغيّر). بتيجي من Firebase.
+  final bool hasPassword;
+
   const AppUser({
     required this.id,
     required this.firebaseUid,
@@ -28,9 +34,37 @@ class AppUser {
     this.profileCompleted = false,
     this.enabled = true,
     required this.role,
+    this.emailVerified = false,
+    this.hasPassword = true,
   });
 
   String get fullName => '$firstName $lastName'.trim();
+
+  AppUser copyWith({
+    String? firstName,
+    String? lastName,
+    String? phone,
+    bool? phoneVerified,
+    String? address,
+    String? gender,
+  }) {
+    return AppUser(
+      id: id,
+      firebaseUid: firebaseUid,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email,
+      phone: phone ?? this.phone,
+      phoneVerified: phoneVerified ?? this.phoneVerified,
+      address: address ?? this.address,
+      gender: gender ?? this.gender,
+      profileCompleted: profileCompleted,
+      enabled: enabled,
+      role: role,
+      emailVerified: emailVerified,
+      hasPassword: hasPassword,
+    );
+  }
 
   // أسماء مفاتيح الـ JSON هنا تخمين (camelCase)،
   // هنأكدها من رد حقيقي من الـ Backend ونعدّلها في المكان ده بس.
@@ -48,6 +82,7 @@ class AppUser {
       profileCompleted: json['profileCompleted'] as bool? ?? false,
       enabled: json['enabled'] as bool? ?? true,
       role: UserRole.fromCode(_roleName(json['role'])),
+      emailVerified: json['emailVerified'] as bool? ?? false,
     );
   }
 

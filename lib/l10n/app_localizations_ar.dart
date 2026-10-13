@@ -637,4 +637,127 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guidanceImportant => 'مهم';
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+
+  @override
+  String get personalInfo => 'المعلومات الشخصية';
+
+  @override
+  String get contactInfo => 'بيانات التواصل';
+
+  @override
+  String get editLabel => 'تعديل';
+
+  @override
+  String get editProfileTitle => 'تعديل المعلومات الشخصية';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get profileUpdated => 'تم تحديث الملف الشخصي';
+
+  @override
+  String get fullNameLabel => 'الاسم';
+
+  @override
+  String get verifiedLabel => 'مؤكد';
+
+  @override
+  String get notVerifiedLabel => 'غير مؤكد';
+
+  @override
+  String get changePhone => 'تغيير رقم الموبايل';
+
+  @override
+  String get verifyPhoneTitle => 'تأكيد رقم الموبايل';
+
+  @override
+  String get newPhoneNumber => 'رقم الموبايل';
+
+  @override
+  String get sendCode => 'إرسال الكود';
+
+  @override
+  String get phoneCodeSentTo => 'أرسلنا كودًا من 6 أرقام برسالة نصية إلى';
+
+  @override
+  String get phoneVerifiedMessage => 'تم تأكيد رقم الموبايل';
+
+  @override
+  String get useDifferentNumber => 'استخدام رقم آخر';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get currentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get passwordChanged => 'تم تغيير كلمة المرور';
+
+  @override
+  String get googleAccountNote =>
+      'سجّلت الدخول بواسطة Google، فلا توجد كلمة مرور لتغييرها.';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get languageSystem => 'لغة الجهاز';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageArabic => 'العربية';
+
+  @override
+  String get appSection => 'التطبيق';
+
+  @override
+  String get healthSection => 'الصحة';
+
+  @override
+  String get medicalHistoryRowHint =>
+      'فصيلة الدم والحساسية والأمراض وجهة الطوارئ';
+
+  @override
+  String get becomeFirstResponder => 'كن مستجيبًا أول';
+
+  @override
+  String get becomeFirstResponderHint =>
+      'قدّم لمساعدة من حولك قبل وصول الإسعاف';
+
+  @override
+  String get legalSection => 'قانوني';
+
+  @override
+  String get signOutConfirmTitle => 'تسجيل الخروج؟';
+
+  @override
+  String get signOutConfirmBody => 'يمكنك تسجيل الدخول مرة أخرى في أي وقت.';
+
+  @override
+  String get roleCitizen => 'مواطن';
+
+  @override
+  String get roleFirstResponder => 'مستجيب أول';
+
+  @override
+  String get roleAmbulanceCrew => 'طاقم إسعاف';
+
+  @override
+  String get roleFirefighter => 'رجل إطفاء';
+
+  @override
+  String get rolePolice => 'شرطة';
 }

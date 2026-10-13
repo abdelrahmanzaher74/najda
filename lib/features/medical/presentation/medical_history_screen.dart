@@ -14,7 +14,10 @@ import 'medical_labels.dart';
 import 'widgets/option_chip_group.dart';
 
 class MedicalHistoryScreen extends ConsumerStatefulWidget {
-  const MedicalHistoryScreen({super.key});
+  /// true = تعديل من البروفايل، false = أول مرة بعد التسجيل.
+  final bool editing;
+
+  const MedicalHistoryScreen({super.key, this.editing = false});
 
   @override
   ConsumerState<MedicalHistoryScreen> createState() =>
@@ -34,12 +37,53 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
   final _contactNameController = TextEditingController();
   final _contactPhoneController = TextEditingController();
 
+  bool _loadingExisting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.editing) {
+      _loadingExisting = true;
+      _loadExisting();
+    }
+  }
+
   @override
   void dispose() {
     _medicationsController.dispose();
     _contactNameController.dispose();
     _contactPhoneController.dispose();
     super.dispose();
+  }
+
+  /// بيحمّل البيانات المحفوظة (في وضع التعديل).
+  Future<void> _loadExisting() async {
+    try {
+      final profile = await ref.read(medicalRepositoryProvider).getMyProfile();
+      if (!mounted) return;
+
+      if (profile != null) {
+        setState(() {
+          _bloodType = profile.bloodType;
+          _allergies.addAll(profile.allergies);
+          _otherAllergies.addAll(profile.otherAllergies);
+          _conditions.addAll(profile.conditions);
+          _otherConditions.addAll(profile.otherConditions);
+          _medicationsController.text = profile.medications ?? '';
+
+          final contact = profile.emergencyContact;
+          if (contact != null) {
+            _contactNameController.text = contact.name;
+            _contactPhoneController.text =
+                normalizeEgyptianMobile(contact.phone) ?? contact.phone;
+          }
+        });
+      }
+    } catch (_) {
+      // لو فشل التحميل بنسيب الفورم فاضي
+    }
+
+    if (mounted) setState(() => _loadingExisting = false);
   }
 
   void _toggle<T>(Set<T> set, T value) {
@@ -57,8 +101,8 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
     setState(() => list.remove(text));
   }
 
-  void _finish() {
-    // لازم العلم يتصفّر قبل ما نروح للرئيسية
+  /// بعد أول تسجيل: بنصفّر العلم ونروح للرئيسية.
+  void _finishOnboarding() {
     ref.read(needsMedicalHistoryProvider.notifier).set(false);
     context.go('/citizen');
   }
@@ -90,7 +134,16 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
     if (ok) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(l10n.medicalSaved)));
-      _finish();
+
+      if (widget.editing) {
+        if (context.canPop()) {
+          context.pop();
+        } else {
+          context.go('/citizen');
+        }
+      } else {
+        _finishOnboarding();
+      }
     } else {
       final error = ref.read(medicalHistoryControllerProvider).error;
       final message =
@@ -108,13 +161,15 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.editing,
         title: Text(l10n.medicalHistoryTitle),
         backgroundColor: Colors.transparent,
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
-        child: Center(
+        child: _loadingExisting
+            ? const Center(child: CircularProgressIndicator())
+            : Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
             child: ConstrainedBox(
@@ -158,7 +213,8 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                         selected: _allergies,
                         onToggle: (a) => _toggle(_allergies, a),
                         others: _otherAllergies,
-                        onAddOther: (text) => _addOther(_otherAllergies, text),
+                        onAddOther: (text) =>
+                            _addOther(_otherAllergies, text),
                         onRemoveOther: (text) =>
                             _removeOther(_otherAllergies, text),
                       ),
@@ -213,13 +269,16 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               labelText: l10n.contactName,
-                              prefixIcon: const Icon(Icons.person_outline),
+                              prefixIcon:
+                              const Icon(Icons.person_outline),
                             ),
                             validator: (value) {
-                              final phoneFilled = _contactPhoneController.text
+                              final phoneFilled = _contactPhoneController
+                                  .text
                                   .trim()
                                   .isNotEmpty;
-                              final nameEmpty = value?.trim().isEmpty ?? true;
+                              final nameEmpty =
+                                  value?.trim().isEmpty ?? true;
                               return (phoneFilled && nameEmpty)
                                   ? l10n.contactNameRequired
                                   : null;
@@ -239,8 +298,9 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                               hintText: '1012345678',
                               counterText: '',
                               prefixIcon: Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
                                 child: Center(
                                   widthFactor: 1,
                                   child: Text(
@@ -283,13 +343,19 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                           color: Colors.white,
                         ),
                       )
-                          : Text(l10n.saveAndContinue),
+                          : Text(
+                        widget.editing
+                            ? l10n.save
+                            : l10n.saveAndContinue,
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    TextButton(
-                      onPressed: isLoading ? null : _finish,
-                      child: Text(l10n.skipForNow),
-                    ),
+                    if (!widget.editing) ...[
+                      const SizedBox(height: 4),
+                      TextButton(
+                        onPressed: isLoading ? null : _finishOnboarding,
+                        child: Text(l10n.skipForNow),
+                      ),
+                    ],
                   ],
                 ),
               ),
