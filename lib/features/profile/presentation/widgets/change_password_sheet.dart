@@ -53,6 +53,7 @@ class _ChangePasswordSheetState extends ConsumerState<ChangePasswordSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(profileControllerProvider).isLoading;
 
     final toggle = IconButton(
@@ -80,7 +81,7 @@ class _ChangePasswordSheetState extends ConsumerState<ChangePasswordSheet> {
                 l10n.changePassword,
                 style: textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
+                  color: n.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),

@@ -69,6 +69,7 @@ class _EditProfileSheetState extends ConsumerState<EditProfileSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(profileControllerProvider).isLoading;
 
     return Padding(
@@ -89,7 +90,7 @@ class _EditProfileSheetState extends ConsumerState<EditProfileSheet> {
                 l10n.editProfileTitle,
                 style: textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
+                  color: n.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -122,6 +123,7 @@ class _EditProfileSheetState extends ConsumerState<EditProfileSheet> {
               const SizedBox(height: 14),
               DropdownButtonFormField<Gender>(
                 initialValue: _gender,
+                dropdownColor: n.card,
                 decoration: InputDecoration(
                   labelText: l10n.gender,
                   prefixIcon: const Icon(Icons.wc_outlined),

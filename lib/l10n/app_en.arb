@@ -281,5 +281,9 @@
   "frHomeApproved": "Application approved",
   "frHomeRejected": "Application not approved",
   "frHomeTapToView": "Tap to view details",
-  "removeFile": "Remove"
+  "removeFile": "Remove",
+  "appearance": "Appearance",
+  "themeSystem": "Device setting",
+  "themeLight": "Light",
+  "themeDark": "Dark"
 }

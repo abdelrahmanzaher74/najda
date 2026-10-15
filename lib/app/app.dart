@@ -7,6 +7,7 @@ import 'location_prewarm.dart';
 import 'pending_sync.dart';
 import 'router.dart';
 import 'theme.dart';
+import 'theme_mode_controller.dart';
 
 class NajdaApp extends ConsumerWidget {
   const NajdaApp({super.key});
@@ -15,11 +16,14 @@ class NajdaApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
       title: 'NAJDA',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: themeMode,
       routerConfig: router,
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

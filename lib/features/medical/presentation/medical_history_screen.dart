@@ -14,7 +14,7 @@ import 'medical_labels.dart';
 import 'widgets/option_chip_group.dart';
 
 class MedicalHistoryScreen extends ConsumerStatefulWidget {
-  /// true = تعديل من البروفايل، false = أول مرة بعد التسجيل.
+  /// true = تعديل (تبويب البطاقة الطبية)، false = أول مرة بعد التسجيل.
   final bool editing;
 
   const MedicalHistoryScreen({super.key, this.editing = false});
@@ -135,15 +135,8 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(l10n.medicalSaved)));
 
-      if (widget.editing) {
-        if (context.canPop()) {
-          context.pop();
-        } else {
-          context.go('/citizen');
-        }
-      } else {
-        _finishOnboarding();
-      }
+      // في وضع التبويب بنفضل في مكاننا، وأول مرة بنكمّل للرئيسية
+      if (!widget.editing) _finishOnboarding();
     } else {
       final error = ref.read(medicalHistoryControllerProvider).error;
       final message =
@@ -157,14 +150,13 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(medicalHistoryControllerProvider).isLoading;
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: widget.editing,
+        automaticallyImplyLeading: false,
         title: Text(l10n.medicalHistoryTitle),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
       ),
       body: SafeArea(
         child: _loadingExisting
@@ -182,7 +174,7 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                     Text(
                       l10n.medicalHistorySubtitle,
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                     const SizedBox(height: 16),
 
@@ -307,7 +299,7 @@ class _MedicalHistoryScreenState extends ConsumerState<MedicalHistoryScreen> {
                                     '+20',
                                     style: textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.foreground,
+                                      color: n.textPrimary,
                                     ),
                                   ),
                                 ),
@@ -383,13 +375,14 @@ class _SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: n.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,7 +393,7 @@ class _SectionCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.primary.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: AppColors.primary),
@@ -414,13 +407,13 @@ class _SectionCard extends StatelessWidget {
                       title,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     Text(
                       subtitle,
                       style: textTheme.bodySmall
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                   ],
                 ),

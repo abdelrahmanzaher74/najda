@@ -281,5 +281,9 @@
   "frHomeApproved": "تمت الموافقة على طلبك",
   "frHomeRejected": "لم تتم الموافقة على طلبك",
   "frHomeTapToView": "اضغط لعرض التفاصيل",
-  "removeFile": "إزالة"
+  "removeFile": "إزالة",
+  "appearance": "المظهر",
+  "themeSystem": "إعداد الجهاز",
+  "themeLight": "فاتح",
+  "themeDark": "داكن"
 }

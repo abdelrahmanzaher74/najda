@@ -109,6 +109,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(profileControllerProvider).isLoading;
 
     final secondsLeft = _resendAt == null
@@ -118,7 +119,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
       (_resendAt!.difference(DateTime.now()).inMilliseconds / 1000).ceil(),
     );
 
-    final spinner = const SizedBox(
+    const spinner = SizedBox(
       height: 20,
       width: 20,
       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
@@ -140,7 +141,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
               l10n.verifyPhoneTitle,
               style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.foreground,
+                color: n.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
@@ -164,7 +165,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
                         '+20',
                         style: textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                     ),
@@ -179,7 +180,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
             ] else ...[
               Text(
                 '${l10n.phoneCodeSentTo} $_targetPhone',
-                style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+                style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
               ),
               const SizedBox(height: 12),
               TextField(

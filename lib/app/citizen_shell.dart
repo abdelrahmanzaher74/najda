@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
-import 'theme.dart';
 
 /// الشاشات الرئيسية للمواطن (الرئيسية والبطاقة الطبية والبروفايل) مع الشريط السفلي.
 /// شاشات البلاغ والتتبع والشات بتتفتح فوقه كاملة (من غير شريط).
+/// ألوان الشريط بتيجي من الثيم (NavigationBarTheme في theme.dart).
 class CitizenShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -19,11 +19,6 @@ class CitizenShell extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        indicatorColor: AppColors.primary.withValues(alpha: 0.12),
-        elevation: 8,
-        shadowColor: Colors.black,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         onDestinationSelected: (index) => navigationShell.goBranch(
           index,
@@ -33,20 +28,17 @@ class CitizenShell extends StatelessWidget {
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home, color: AppColors.primary),
+            selectedIcon: const Icon(Icons.home),
             label: l10n.navHome,
           ),
           NavigationDestination(
             icon: const Icon(Icons.medical_information_outlined),
-            selectedIcon: const Icon(
-              Icons.medical_information,
-              color: AppColors.primary,
-            ),
+            selectedIcon: const Icon(Icons.medical_information),
             label: l10n.navMedical,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person_outline),
-            selectedIcon: const Icon(Icons.person, color: AppColors.primary),
+            selectedIcon: const Icon(Icons.person),
             label: l10n.navProfile,
           ),
         ],

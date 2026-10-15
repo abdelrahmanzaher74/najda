@@ -37,6 +37,7 @@ class OptionChipGroup<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final n = context.najda;
 
     return Wrap(
       spacing: 8,
@@ -48,19 +49,15 @@ class OptionChipGroup<T> extends StatelessWidget {
             selected: selected.contains(option),
             showCheckmark: false,
             onSelected: (_) => onToggle(option),
-            backgroundColor: Colors.white,
+            backgroundColor: n.card,
             selectedColor: AppColors.primary,
             shape: const StadiumBorder(),
             side: BorderSide(
-              color: selected.contains(option)
-                  ? AppColors.primary
-                  : Colors.black12,
+              color: selected.contains(option) ? AppColors.primary : n.border,
             ),
             labelStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              color: selected.contains(option)
-                  ? Colors.white
-                  : AppColors.foreground,
+              color: selected.contains(option) ? Colors.white : n.textPrimary,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
           ),
@@ -86,7 +83,7 @@ class OptionChipGroup<T> extends StatelessWidget {
             avatar: const Icon(Icons.add, size: 18, color: AppColors.primary),
             label: Text(l10n.otherOption),
             onPressed: () => _addOther(context),
-            backgroundColor: Colors.white,
+            backgroundColor: n.card,
             shape: const StadiumBorder(),
             side: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
             labelStyle: const TextStyle(

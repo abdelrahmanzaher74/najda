@@ -884,4 +884,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get removeFile => 'Remove';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get themeSystem => 'Device setting';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
 }

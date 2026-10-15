@@ -32,6 +32,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     final status = app?.status;
     final isNew = app == null;
@@ -46,7 +47,7 @@ class _Card extends StatelessWidget {
       ),
       ApplicationStatus.approved => (
       Icons.verified,
-      const Color(0xFF1F9D8B),
+      n.success,
       l10n.frHomeApproved,
       l10n.frHomeTapToView,
       ),
@@ -58,7 +59,7 @@ class _Card extends StatelessWidget {
       ),
       _ => (
       Icons.hourglass_top,
-      const Color(0xFFB26A00),
+      n.warning,
       l10n.frHomeUnderReview,
       l10n.frHomeTapToView,
       ),
@@ -70,9 +71,9 @@ class _Card extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.08),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: color.withValues(alpha: 0.35)),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
         ),
         child: Row(
           children: [
@@ -91,14 +92,14 @@ class _Card extends StatelessWidget {
                     title,
                     style: textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.foreground,
+                      color: n.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style:
-                    textTheme.bodySmall?.copyWith(color: Colors.black54),
+                    textTheme.bodySmall?.copyWith(color: n.textSecondary),
                   ),
                 ],
               ),

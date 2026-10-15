@@ -53,6 +53,7 @@ class CitizenHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final user = ref.watch(sessionProvider);
 
     return Scaffold(
@@ -74,7 +75,7 @@ class CitizenHomeScreen extends ConsumerWidget {
                         Text(
                           _greeting(l10n),
                           style: textTheme.bodySmall
-                              ?.copyWith(color: Colors.black54),
+                              ?.copyWith(color: n.textSecondary),
                         ),
                         Text(
                           user?.fullName ?? '',
@@ -82,7 +83,7 @@ class CitizenHomeScreen extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.foreground,
+                            color: n.textPrimary,
                           ),
                         ),
                       ],
@@ -98,15 +99,15 @@ class CitizenHomeScreen extends ConsumerWidget {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE3F1EE),
+                  color: n.successBg,
                   borderRadius: BorderRadius.circular(32),
                 ),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.verified_user_outlined,
                       size: 20,
-                      color: Color(0xFF1F9D8B),
+                      color: n.success,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -114,7 +115,7 @@ class CitizenHomeScreen extends ConsumerWidget {
                         l10n.protectedLocationOn,
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                     ),
@@ -139,7 +140,7 @@ class CitizenHomeScreen extends ConsumerWidget {
               Text(
                 l10n.sosHint,
                 textAlign: TextAlign.center,
-                style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                style: textTheme.bodyMedium?.copyWith(color: n.textSecondary),
               ),
               const SizedBox(height: 32),
 
@@ -148,7 +149,7 @@ class CitizenHomeScreen extends ConsumerWidget {
                 l10n.quickReport,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
+                  color: n.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -202,13 +203,13 @@ class _PendingReportBanner extends ConsumerWidget {
 
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final controller = ref.read(pendingReportControllerProvider.notifier);
 
     final stale = report.isStale;
-    final accent = stale ? AppColors.primary : const Color(0xFFB26A00);
-    final background = stale
-        ? AppColors.primary.withValues(alpha: 0.08)
-        : const Color(0xFFFFF4E0);
+    final accent = stale ? AppColors.primary : n.warning;
+    final background =
+    stale ? AppColors.primary.withValues(alpha: 0.08) : n.warningBg;
     final savedAt = MaterialLocalizations.of(context).formatTimeOfDay(
       TimeOfDay.fromDateTime(report.capturedAt),
     );
@@ -247,15 +248,14 @@ class _PendingReportBanner extends ConsumerWidget {
                       const SizedBox(height: 2),
                       Text(
                         stale ? l10n.pendingStaleBody : l10n.pendingBody,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: AppColors.foreground,
-                        ),
+                        style: textTheme.bodySmall
+                            ?.copyWith(color: n.textPrimary),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${l10n.pendingSavedAt} $savedAt',
                         style: textTheme.labelSmall
-                            ?.copyWith(color: Colors.black54),
+                            ?.copyWith(color: n.textSecondary),
                       ),
                       if (pending.error != null) ...[
                         const SizedBox(height: 4),
@@ -332,6 +332,7 @@ class _ActiveReportBanner extends ConsumerWidget {
 
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16),
@@ -366,7 +367,7 @@ class _ActiveReportBanner extends ConsumerWidget {
                       statusLabel(l10n, incident.status),
                       style: textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                   ],
@@ -381,6 +382,7 @@ class _ActiveReportBanner extends ConsumerWidget {
   }
 }
 
+/// اللوجو بخلفية بيضا (اللوجو نفسه خلفيته بيضا)، فبيفضل أبيض في الوضعين.
 class _LogoAvatar extends StatelessWidget {
   const _LogoAvatar();
 
@@ -424,19 +426,21 @@ class _BellButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
+
     return Stack(
       children: [
         Container(
           width: 46,
           height: 46,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.08),
+            color: AppColors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: IconButton(
             onPressed: onPressed,
             icon: const Icon(Icons.notifications_none),
-            color: AppColors.foreground,
+            color: n.textPrimary,
           ),
         ),
         PositionedDirectional(
@@ -469,6 +473,8 @@ class _QuickReportItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -479,9 +485,9 @@ class _QuickReportItem extends StatelessWidget {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: n.card,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.black12),
+              border: Border.all(color: n.border),
             ),
             child: Icon(icon, color: AppColors.primary, size: 28),
           ),
@@ -490,7 +496,7 @@ class _QuickReportItem extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
         ],

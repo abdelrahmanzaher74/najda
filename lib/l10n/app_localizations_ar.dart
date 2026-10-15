@@ -876,4 +876,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get removeFile => 'إزالة';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get themeSystem => 'إعداد الجهاز';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
 }

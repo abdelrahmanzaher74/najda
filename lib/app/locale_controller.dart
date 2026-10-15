@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../core/storage/preferences.dart';
 
 /// اللغة اللي اختارها المستخدم. null = لغة الجهاز.
 class LocaleController extends Notifier<Locale?> {
@@ -8,21 +9,14 @@ class LocaleController extends Notifier<Locale?> {
 
   @override
   Locale? build() {
-    Future.microtask(_load);
-    return null;
-  }
-
-  Future<void> _load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final code = prefs.getString(_key);
-    if (!ref.mounted) return;
-    if (code != null) state = Locale(code);
+    final code = ref.read(sharedPreferencesProvider).getString(_key);
+    return code == null ? null : Locale(code);
   }
 
   Future<void> set(Locale? locale) async {
     state = locale;
 
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = ref.read(sharedPreferencesProvider);
     if (locale == null) {
       await prefs.remove(_key);
     } else {

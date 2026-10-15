@@ -13,6 +13,7 @@ class LanguageSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final current = ref.watch(localeProvider)?.languageCode;
 
     Widget option(String label, String? code) {
@@ -23,12 +24,12 @@ class LanguageSheet extends ConsumerWidget {
           label,
           style: TextStyle(
             fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-            color: selected ? AppColors.primary : AppColors.foreground,
+            color: selected ? AppColors.primary : n.textPrimary,
           ),
         ),
         trailing: selected
             ? const Icon(Icons.check_circle, color: AppColors.primary)
-            : const Icon(Icons.circle_outlined, color: Colors.black26),
+            : Icon(Icons.circle_outlined, color: n.borderStrong),
         onTap: () async {
           await ref
               .read(localeProvider.notifier)
@@ -48,7 +49,7 @@ class LanguageSheet extends ConsumerWidget {
             l10n.language,
             style: textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
           const SizedBox(height: 8),

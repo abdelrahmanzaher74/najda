@@ -5,18 +5,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/locale_controller.dart';
 import '../../../app/theme.dart';
+import '../../../app/theme_mode_controller.dart';
 import '../../../core/config/app_config.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/models/app_user.dart';
 import '../../auth/data/models/user_role.dart';
 import '../../auth/presentation/session_controller.dart';
+import 'widgets/appearance_sheet.dart';
 import 'widgets/change_password_sheet.dart';
 import 'widgets/change_phone_sheet.dart';
 import 'widgets/edit_profile_sheet.dart';
 import 'widgets/language_sheet.dart';
-
-const _verifiedColor = Color(0xFF1F9D8B);
-const _warningColor = Color(0xFFB26A00);
 
 String _roleLabel(AppLocalizations l10n, UserRole role) {
   return switch (role) {
@@ -111,8 +110,10 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final user = ref.watch(sessionProvider);
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     if (user == null) return const SizedBox.shrink();
 
@@ -122,12 +123,14 @@ class ProfileScreen extends ConsumerWidget {
       _ => l10n.languageSystem,
     };
 
+    final themeName = switch (themeMode) {
+      ThemeMode.light => l10n.themeLight,
+      ThemeMode.dark => l10n.themeDark,
+      ThemeMode.system => l10n.themeSystem,
+    };
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.profileTitle),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: AppBar(title: Text(l10n.profileTitle)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -143,7 +146,7 @@ class ProfileScreen extends ConsumerWidget {
                       CircleAvatar(
                         radius: 40,
                         backgroundColor:
-                        AppColors.primary.withValues(alpha: 0.12),
+                        AppColors.primary.withValues(alpha: 0.15),
                         child: Text(
                           _initials(user),
                           style: textTheme.headlineSmall?.copyWith(
@@ -158,7 +161,7 @@ class ProfileScreen extends ConsumerWidget {
                         textAlign: TextAlign.center,
                         style: textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -168,7 +171,7 @@ class ProfileScreen extends ConsumerWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
+                          color: AppColors.primary.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Text(
@@ -279,7 +282,7 @@ class ProfileScreen extends ConsumerWidget {
                           child: Text(
                             l10n.googleAccountNote,
                             style: textTheme.bodySmall
-                                ?.copyWith(color: Colors.black54),
+                                ?.copyWith(color: n.textSecondary),
                           ),
                         ),
                     ],
@@ -300,10 +303,20 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 14),
 
-                  // التطبيق
+                  // التطبيق: المظهر واللغة
                   _Section(
                     title: l10n.appSection,
                     children: [
+                      _ActionTile(
+                        icon: Icons.dark_mode_outlined,
+                        title: l10n.appearance,
+                        subtitle: themeName,
+                        onTap: () => showModalBottomSheet<void>(
+                          context: context,
+                          showDragHandle: true,
+                          builder: (_) => const AppearanceSheet(),
+                        ),
+                      ),
                       _ActionTile(
                         icon: Icons.language,
                         title: l10n.language,
@@ -361,13 +374,14 @@ class _Section extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: n.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,7 +394,7 @@ class _Section extends StatelessWidget {
                   style: textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.8,
-                    color: AppColors.foreground,
+                    color: n.textPrimary,
                   ),
                 ),
               ),
@@ -417,6 +431,7 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -431,14 +446,15 @@ class _InfoRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: textTheme.labelSmall?.copyWith(color: Colors.black54),
+                  style:
+                  textTheme.labelSmall?.copyWith(color: n.textSecondary),
                 ),
                 Text(
                   value,
                   textDirection: textDirection,
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.foreground,
+                    color: n.textPrimary,
                   ),
                 ),
                 if (badge != null) ...[
@@ -463,7 +479,8 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = verified ? _verifiedColor : _warningColor;
+    final n = context.najda;
+    final color = verified ? n.success : n.warning;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -503,6 +520,7 @@ class _ActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return InkWell(
       onTap: onTap,
@@ -514,7 +532,7 @@ class _ActionTile extends StatelessWidget {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: AppColors.primary.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, size: 20, color: AppColors.primary),
@@ -528,19 +546,19 @@ class _ActionTile extends StatelessWidget {
                     title,
                     style: textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.foreground,
+                      color: n.textPrimary,
                     ),
                   ),
                   if (subtitle != null)
                     Text(
                       subtitle!,
                       style: textTheme.bodySmall
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.black38),
+            Icon(Icons.chevron_right, color: n.textTertiary),
           ],
         ),
       ),
