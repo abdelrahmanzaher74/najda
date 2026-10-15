@@ -765,4 +765,123 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rolePolice => 'Police';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navMedical => 'Medical ID';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get frApply => 'Apply now';
+
+  @override
+  String get frScreenTitle => 'First Responder';
+
+  @override
+  String get frIntroTitle => 'Help before the ambulance arrives';
+
+  @override
+  String get frIntroBody =>
+      'First Responders are trained volunteers who get alerted to nearby emergencies and give first aid until the ambulance arrives.';
+
+  @override
+  String get frStep1 => 'You get alerts only when you’re available.';
+
+  @override
+  String get frStep2 => 'You give first aid within your training only.';
+
+  @override
+  String get frStep3 =>
+      'An admin reviews your certificate before you’re approved.';
+
+  @override
+  String get frMotivationLabel => 'Why do you want to help?';
+
+  @override
+  String get frMotivationHint => 'Tell us about your training and experience';
+
+  @override
+  String get frMotivationTooShort => 'Please write at least 20 characters';
+
+  @override
+  String get frCertificates => 'First-aid certificate';
+
+  @override
+  String get frCertificatesHint =>
+      'PDF, JPG or PNG, up to 5 MB each, max 3 files';
+
+  @override
+  String get frUploadFiles => 'Upload files';
+
+  @override
+  String get frFilesRequired => 'Please upload at least one certificate';
+
+  @override
+  String get frFileTooLarge => 'Each file must be 5 MB or less';
+
+  @override
+  String get frTooManyFiles => 'You can upload up to 3 files';
+
+  @override
+  String get frConfirmation =>
+      'I confirm that I’m trained in first aid and will only help within my training.';
+
+  @override
+  String get frSubmit => 'Submit application';
+
+  @override
+  String get frSubmitted =>
+      'Application submitted. We’ll let you know once it’s reviewed.';
+
+  @override
+  String get frStatusSubmittedTitle => 'Under review';
+
+  @override
+  String get frStatusSubmittedBody =>
+      'An admin is reviewing your application. This can take a little while.';
+
+  @override
+  String get frStatusApprovedTitle => 'Approved';
+
+  @override
+  String get frStatusApprovedBody =>
+      'Congratulations! Sign out and sign in again to activate responder mode.';
+
+  @override
+  String get frStatusRejectedTitle => 'Not approved';
+
+  @override
+  String get frStatusRejectedBody =>
+      'Your application wasn’t approved this time.';
+
+  @override
+  String get frReviewerNotes => 'Reviewer notes';
+
+  @override
+  String get frApplyAgain => 'Apply again';
+
+  @override
+  String get frSubmittedOn => 'Submitted on';
+
+  @override
+  String get frDocuments => 'Documents';
+
+  @override
+  String get frHomeUnderReview => 'Application under review';
+
+  @override
+  String get frHomeApproved => 'Application approved';
+
+  @override
+  String get frHomeRejected => 'Application not approved';
+
+  @override
+  String get frHomeTapToView => 'Tap to view details';
+
+  @override
+  String get removeFile => 'Remove';
 }

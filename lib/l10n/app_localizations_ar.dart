@@ -760,4 +760,120 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rolePolice => 'شرطة';
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navMedical => 'البطاقة الطبية';
+
+  @override
+  String get navProfile => 'حسابي';
+
+  @override
+  String get frApply => 'قدّم الآن';
+
+  @override
+  String get frScreenTitle => 'مستجيب أول';
+
+  @override
+  String get frIntroTitle => 'ساعد قبل وصول الإسعاف';
+
+  @override
+  String get frIntroBody =>
+      'المستجيبون الأوائل متطوعون مدرّبون يصلهم تنبيه بالطوارئ القريبة ويقدّمون الإسعاف الأولي حتى يصل الإسعاف.';
+
+  @override
+  String get frStep1 => 'تصلك التنبيهات فقط عندما تكون متاحًا.';
+
+  @override
+  String get frStep2 => 'تقدّم الإسعاف الأولي في حدود تدريبك فقط.';
+
+  @override
+  String get frStep3 => 'يراجع مسؤول شهادتك قبل الموافقة عليك.';
+
+  @override
+  String get frMotivationLabel => 'لماذا تريد المساعدة؟';
+
+  @override
+  String get frMotivationHint => 'حدّثنا عن تدريبك وخبرتك';
+
+  @override
+  String get frMotivationTooShort => 'من فضلك اكتب 20 حرفًا على الأقل';
+
+  @override
+  String get frCertificates => 'شهادة الإسعاف الأولي';
+
+  @override
+  String get frCertificatesHint =>
+      'PDF أو JPG أو PNG، حتى 5 ميجابايت للملف، وبحد أقصى 3 ملفات';
+
+  @override
+  String get frUploadFiles => 'رفع ملفات';
+
+  @override
+  String get frFilesRequired => 'من فضلك ارفع شهادة واحدة على الأقل';
+
+  @override
+  String get frFileTooLarge => 'يجب ألا يزيد حجم الملف عن 5 ميجابايت';
+
+  @override
+  String get frTooManyFiles => 'يمكنك رفع 3 ملفات كحد أقصى';
+
+  @override
+  String get frConfirmation =>
+      'أؤكد أنني مدرّب على الإسعاف الأولي وسأساعد في حدود تدريبي فقط.';
+
+  @override
+  String get frSubmit => 'إرسال الطلب';
+
+  @override
+  String get frSubmitted => 'تم إرسال طلبك. سنخبرك بعد مراجعته.';
+
+  @override
+  String get frStatusSubmittedTitle => 'قيد المراجعة';
+
+  @override
+  String get frStatusSubmittedBody =>
+      'يراجع أحد المسؤولين طلبك. قد يستغرق ذلك بعض الوقت.';
+
+  @override
+  String get frStatusApprovedTitle => 'تمت الموافقة';
+
+  @override
+  String get frStatusApprovedBody =>
+      'مبروك! سجّل الخروج ثم الدخول مرة أخرى لتفعيل وضع المستجيب.';
+
+  @override
+  String get frStatusRejectedTitle => 'لم تتم الموافقة';
+
+  @override
+  String get frStatusRejectedBody => 'لم تتم الموافقة على طلبك هذه المرة.';
+
+  @override
+  String get frReviewerNotes => 'ملاحظات المراجِع';
+
+  @override
+  String get frApplyAgain => 'قدّم مرة أخرى';
+
+  @override
+  String get frSubmittedOn => 'تاريخ التقديم';
+
+  @override
+  String get frDocuments => 'المستندات';
+
+  @override
+  String get frHomeUnderReview => 'طلبك قيد المراجعة';
+
+  @override
+  String get frHomeApproved => 'تمت الموافقة على طلبك';
+
+  @override
+  String get frHomeRejected => 'لم تتم الموافقة على طلبك';
+
+  @override
+  String get frHomeTapToView => 'اضغط لعرض التفاصيل';
+
+  @override
+  String get removeFile => 'إزالة';
 }

@@ -137,7 +137,7 @@ class ProfileScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // الهيدر: الصورة (الحروف الأولى) والاسم والدور والإيميل
+                  // الهيدر: الصورة (الحروف الأولى) والاسم والدور
                   Column(
                     children: [
                       CircleAvatar(
@@ -259,20 +259,6 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 14),
 
-                  // الصحة
-                  _Section(
-                    title: l10n.healthSection,
-                    children: [
-                      _ActionTile(
-                        icon: Icons.medical_information_outlined,
-                        title: l10n.medicalHistoryTitle,
-                        subtitle: l10n.medicalHistoryRowHint,
-                        onTap: () => context.push('/citizen/profile/medical'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-
                   // الأمان
                   _Section(
                     title: l10n.security,
@@ -308,9 +294,7 @@ class ProfileScreen extends ConsumerWidget {
                         icon: Icons.health_and_safety_outlined,
                         title: l10n.becomeFirstResponder,
                         subtitle: l10n.becomeFirstResponderHint,
-                        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.comingNextStep)),
-                        ),
+                        onTap: () => context.push('/citizen/first-responder'),
                       ),
                     ],
                   ),

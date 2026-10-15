@@ -1567,6 +1567,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Police'**
   String get rolePolice;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navMedical.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical ID'**
+  String get navMedical;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @frApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply now'**
+  String get frApply;
+
+  /// No description provided for @frScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Responder'**
+  String get frScreenTitle;
+
+  /// No description provided for @frIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help before the ambulance arrives'**
+  String get frIntroTitle;
+
+  /// No description provided for @frIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'First Responders are trained volunteers who get alerted to nearby emergencies and give first aid until the ambulance arrives.'**
+  String get frIntroBody;
+
+  /// No description provided for @frStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'You get alerts only when you’re available.'**
+  String get frStep1;
+
+  /// No description provided for @frStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'You give first aid within your training only.'**
+  String get frStep2;
+
+  /// No description provided for @frStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'An admin reviews your certificate before you’re approved.'**
+  String get frStep3;
+
+  /// No description provided for @frMotivationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Why do you want to help?'**
+  String get frMotivationLabel;
+
+  /// No description provided for @frMotivationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about your training and experience'**
+  String get frMotivationHint;
+
+  /// No description provided for @frMotivationTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write at least 20 characters'**
+  String get frMotivationTooShort;
+
+  /// No description provided for @frCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'First-aid certificate'**
+  String get frCertificates;
+
+  /// No description provided for @frCertificatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF, JPG or PNG, up to 5 MB each, max 3 files'**
+  String get frCertificatesHint;
+
+  /// No description provided for @frUploadFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload files'**
+  String get frUploadFiles;
+
+  /// No description provided for @frFilesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload at least one certificate'**
+  String get frFilesRequired;
+
+  /// No description provided for @frFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Each file must be 5 MB or less'**
+  String get frFileTooLarge;
+
+  /// No description provided for @frTooManyFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'You can upload up to 3 files'**
+  String get frTooManyFiles;
+
+  /// No description provided for @frConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm that I’m trained in first aid and will only help within my training.'**
+  String get frConfirmation;
+
+  /// No description provided for @frSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit application'**
+  String get frSubmit;
+
+  /// No description provided for @frSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Application submitted. We’ll let you know once it’s reviewed.'**
+  String get frSubmitted;
+
+  /// No description provided for @frStatusSubmittedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get frStatusSubmittedTitle;
+
+  /// No description provided for @frStatusSubmittedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'An admin is reviewing your application. This can take a little while.'**
+  String get frStatusSubmittedBody;
+
+  /// No description provided for @frStatusApprovedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get frStatusApprovedTitle;
+
+  /// No description provided for @frStatusApprovedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! Sign out and sign in again to activate responder mode.'**
+  String get frStatusApprovedBody;
+
+  /// No description provided for @frStatusRejectedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not approved'**
+  String get frStatusRejectedTitle;
+
+  /// No description provided for @frStatusRejectedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application wasn’t approved this time.'**
+  String get frStatusRejectedBody;
+
+  /// No description provided for @frReviewerNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewer notes'**
+  String get frReviewerNotes;
+
+  /// No description provided for @frApplyAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply again'**
+  String get frApplyAgain;
+
+  /// No description provided for @frSubmittedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted on'**
+  String get frSubmittedOn;
+
+  /// No description provided for @frDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get frDocuments;
+
+  /// No description provided for @frHomeUnderReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Application under review'**
+  String get frHomeUnderReview;
+
+  /// No description provided for @frHomeApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Application approved'**
+  String get frHomeApproved;
+
+  /// No description provided for @frHomeRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Application not approved'**
+  String get frHomeRejected;
+
+  /// No description provided for @frHomeTapToView.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to view details'**
+  String get frHomeTapToView;
+
+  /// No description provided for @removeFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeFile;
 }
 
 class _AppLocalizationsDelegate

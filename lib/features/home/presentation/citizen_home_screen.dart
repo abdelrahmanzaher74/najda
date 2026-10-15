@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/presentation/session_controller.dart';
+import '../../first_responder/presentation/widgets/first_responder_home_card.dart';
 import '../../incident/data/incident_providers.dart';
 import '../../incident/presentation/active_report.dart';
 import '../../incident/presentation/labels.dart';
@@ -64,12 +65,7 @@ class CitizenHomeScreen extends ConsumerWidget {
               // الهيدر
               Row(
                 children: [
-                  // اللوجو بيفتح البروفايل
-                  InkWell(
-                    onTap: () => context.push('/citizen/profile'),
-                    customBorder: const CircleBorder(),
-                    child: const _LogoAvatar(),
-                  ),
+                  const _LogoAvatar(),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -181,6 +177,11 @@ class CitizenHomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 28),
+
+              // طلب الانضمام كمستجيب أول
+              const FirstResponderHomeCard(),
+              const SizedBox(height: 8),
             ],
           ),
         ),

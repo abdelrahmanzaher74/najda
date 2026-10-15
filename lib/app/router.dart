@@ -9,6 +9,7 @@ import '../features/auth/presentation/register_screen.dart';
 import '../features/auth/presentation/session_controller.dart';
 import '../features/auth/presentation/splash_screen.dart';
 import '../features/chat/presentation/chat_screen.dart';
+import '../features/first_responder/presentation/first_responder_screen.dart';
 import '../features/guidance/presentation/guidance_screen.dart';
 import '../features/home/presentation/citizen_home_screen.dart';
 import '../features/home/presentation/field_home_screen.dart';
@@ -22,6 +23,7 @@ import '../features/incident/presentation/tracking_screen.dart';
 import '../features/medical/data/medical_providers.dart';
 import '../features/medical/presentation/medical_history_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import 'citizen_shell.dart';
 
 const _publicRoutes = ['/', '/login', '/register', '/forgot-password'];
 const _medicalHistoryRoute = '/citizen/medical-history';
@@ -108,22 +110,53 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/home',
         builder: (context, state) => const SizedBox.shrink(),
       ),
-      GoRoute(
-        path: '/citizen',
-        builder: (context, state) => const CitizenHomeScreen(),
+
+      // شاشات المواطن الرئيسية مع الشريط السفلي
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            CitizenShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/citizen',
+                builder: (context, state) => const CitizenHomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/citizen/medical',
+                builder: (context, state) =>
+                const MedicalHistoryScreen(editing: true),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/citizen/profile',
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+        ],
       ),
+
+      // أول مرة بعد التسجيل (من غير شريط سفلي)
       GoRoute(
         path: _medicalHistoryRoute,
         builder: (context, state) => const MedicalHistoryScreen(),
       ),
+
+      // طلب المستجيب الأول
       GoRoute(
-        path: '/citizen/profile',
-        builder: (context, state) => const ProfileScreen(),
+        path: '/citizen/first-responder',
+        builder: (context, state) => const FirstResponderScreen(),
       ),
-      GoRoute(
-        path: '/citizen/profile/medical',
-        builder: (context, state) => const MedicalHistoryScreen(editing: true),
-      ),
+
+      // رحلة البلاغ (بتتفتح فوق الشريط)
       GoRoute(
         path: '/citizen/report',
         builder: (context, state) {
@@ -156,6 +189,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           return GuidanceScreen(incidentId: id);
         },
       ),
+
       GoRoute(
         path: '/field',
         builder: (context, state) => const FieldHomeScreen(),
