@@ -9,8 +9,6 @@ import '../../../../app/theme.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../email_verification_controller.dart';
 
-const _verifiedColor = Color(0xFF1F9D8B);
-
 bool _looksLikeEmail(String value) {
   final v = value.trim();
   return v.contains('@') && v.contains('.');
@@ -51,6 +49,7 @@ class _EmailVerificationFieldState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final state = ref.watch(emailVerificationControllerProvider);
     final controller = ref.read(emailVerificationControllerProvider.notifier);
     final verified = state.step == EmailStep.verified;
@@ -95,7 +94,7 @@ class _EmailVerificationFieldState
             labelText: l10n.email,
             prefixIcon: const Icon(Icons.mail_outline),
             suffixIcon: verified
-                ? const Icon(Icons.verified, color: _verifiedColor)
+                ? Icon(Icons.verified, color: n.success)
                 : null,
           ),
           onChanged: (value) {
@@ -130,7 +129,7 @@ class _EmailVerificationFieldState
               return OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
-                    color: canSend ? AppColors.primary : Colors.black12,
+                    color: canSend ? AppColors.primary : n.border,
                     width: 1.5,
                   ),
                 ),
@@ -147,7 +146,7 @@ class _EmailVerificationFieldState
         if (state.step == EmailStep.codeSent) ...[
           Text(
             '${l10n.verificationSentTo} ${state.email}',
-            style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+            style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
           ),
           const SizedBox(height: 10),
           TextField(
@@ -203,13 +202,13 @@ class _EmailVerificationFieldState
         if (verified)
           Row(
             children: [
-              const Icon(Icons.verified, size: 20, color: _verifiedColor),
+              Icon(Icons.verified, size: 20, color: n.success),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   l10n.emailVerified,
                   style: textTheme.bodyMedium?.copyWith(
-                    color: _verifiedColor,
+                    color: n.success,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

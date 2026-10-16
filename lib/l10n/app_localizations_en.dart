@@ -896,4 +896,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeDark => 'Dark';
+
+  @override
+  String get navResponder => 'Responder';
+
+  @override
+  String get responderTitle => 'Responder mode';
+
+  @override
+  String get responderStatusLabel => 'Your status';
+
+  @override
+  String get availAvailable => 'Available';
+
+  @override
+  String get availBusy => 'Busy';
+
+  @override
+  String get availOffline => 'Offline';
+
+  @override
+  String get availAvailableHint => 'You’ll be alerted to nearby emergencies.';
+
+  @override
+  String get availBusyHint => 'You won’t receive alerts for now.';
+
+  @override
+  String get availOfflineHint => 'You’re hidden and won’t receive alerts.';
+
+  @override
+  String get responderBusyOwnReport =>
+      'You’re marked busy because you have an active report.';
+
+  @override
+  String get responderNeedsLocation =>
+      'To be available, turn on location and allow precise location, then try again.';
+
+  @override
+  String get responderAlerts => 'Alerts';
+
+  @override
+  String get responderNoAlerts =>
+      'No alerts right now. Nearby emergencies will appear here when you’re available.';
+
+  @override
+  String get responderInfo =>
+      'While you’re available, dispatchers can see your location and alert you to nearby emergencies. You’ll see the type and distance before you accept.';
+
+  @override
+  String get checkingLocation => 'Checking your location…';
 }

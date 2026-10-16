@@ -51,6 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(loginControllerProvider).isLoading;
 
     return Scaffold(
@@ -66,6 +67,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // اللوجو خلفيته بيضا، فبيفضل في دايرة بيضا في الوضعين
                     Center(
                       child: Container(
                         width: 96,
@@ -75,7 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.08),
+                              color: Colors.black.withValues(alpha: 0.15),
                               blurRadius: 16,
                               offset: const Offset(0, 6),
                             ),
@@ -103,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       textAlign: TextAlign.center,
                       style: textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -111,7 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       l10n.signInSubtitle,
                       textAlign: TextAlign.center,
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                     const SizedBox(height: 32),
                     TextFormField(
@@ -179,7 +181,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           child: Text(
                             l10n.or,
                             style: textTheme.bodySmall
-                                ?.copyWith(color: Colors.black54),
+                                ?.copyWith(color: n.textSecondary),
                           ),
                         ),
                         const Expanded(child: Divider()),
@@ -195,7 +197,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       alignment: WrapAlignment.center,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Text(l10n.noAccount),
+                        Text(
+                          l10n.noAccount,
+                          style: TextStyle(color: n.textPrimary),
+                        ),
                         TextButton(
                           onPressed: () => context.go('/register'),
                           child: Text(l10n.createAccount),

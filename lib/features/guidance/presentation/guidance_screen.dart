@@ -20,11 +20,7 @@ class GuidanceScreen extends ConsumerWidget {
     final incident = ref.watch(incidentStreamProvider(incidentId)).value;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.guidanceTitle),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: AppBar(title: Text(l10n.guidanceTitle)),
       body: SafeArea(
         child: incident == null
             ? const Center(child: CircularProgressIndicator())
@@ -49,6 +45,7 @@ class _Cards extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final state = ref.watch(guidanceProvider(request));
 
     return state.when(
@@ -59,6 +56,7 @@ class _Cards extends ConsumerWidget {
           child: Text(
             error is Failure ? error.message : const UnknownFailure().message,
             textAlign: TextAlign.center,
+            style: TextStyle(color: n.textPrimary),
           ),
         ),
       ),
@@ -69,23 +67,19 @@ class _Cards extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFE3F1EE),
+              color: n.successBg,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(
-                  Icons.info_outline,
-                  size: 20,
-                  color: Color(0xFF1F9D8B),
-                ),
+                Icon(Icons.info_outline, size: 20, color: n.success),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     l10n.guidanceDisclaimer,
-                    style: textTheme.bodySmall
-                        ?.copyWith(color: AppColors.foreground),
+                    style:
+                    textTheme.bodySmall?.copyWith(color: n.textPrimary),
                   ),
                 ),
               ],
@@ -111,15 +105,16 @@ class _GuidanceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: card.isGeneral
-              ? AppColors.primary.withValues(alpha: 0.4)
-              : Colors.black12,
+              ? AppColors.primary.withValues(alpha: 0.45)
+              : n.border,
         ),
       ),
       clipBehavior: Clip.antiAlias,
@@ -127,6 +122,8 @@ class _GuidanceTile extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           initiallyExpanded: card.isGeneral,
+          iconColor: n.textSecondary,
+          collapsedIconColor: n.textSecondary,
           tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +131,7 @@ class _GuidanceTile extends StatelessWidget {
             card.title,
             style: textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
           children: [
@@ -167,7 +164,7 @@ class _GuidanceTile extends StatelessWidget {
                         card.steps[i],
                         style: textTheme.bodyMedium?.copyWith(
                           height: 1.4,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                     ),
@@ -179,7 +176,7 @@ class _GuidanceTile extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.08),
+                  color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -197,16 +194,16 @@ class _GuidanceTile extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: '${l10n.guidanceImportant}: ',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
+                                color: n.link,
                               ),
                             ),
                             TextSpan(text: card.warning),
                           ],
                         ),
                         style: textTheme.bodySmall
-                            ?.copyWith(color: AppColors.foreground),
+                            ?.copyWith(color: n.textPrimary),
                       ),
                     ),
                   ],

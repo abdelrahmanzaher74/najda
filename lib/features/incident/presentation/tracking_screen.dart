@@ -48,11 +48,7 @@ class TrackingScreen extends ConsumerWidget {
         const <AssignedUnit>[];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${l10n.reportNumber} #$incidentId'),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: AppBar(title: Text('${l10n.reportNumber} #$incidentId')),
       body: SafeArea(
         child: state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -100,14 +96,15 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final status = incident.status;
 
     final isCancelled = status == IncidentStatus.cancelled;
     final isCompleted = status == IncidentStatus.completed;
     final tint = isCancelled
-        ? Colors.black45
+        ? n.textTertiary
         : isCompleted
-        ? const Color(0xFF1F9D8B)
+        ? n.success
         : AppColors.primary;
 
     final hasLocation = incident.latitude != null && incident.longitude != null;
@@ -127,7 +124,7 @@ class _Content extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: tint.withValues(alpha: 0.1),
+                  color: tint.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -154,14 +151,14 @@ class _Content extends StatelessWidget {
                             statusLabel(l10n, status),
                             style: textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.foreground,
+                              color: n.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             incidentCategoryLabel(l10n, incident.category),
                             style: textTheme.bodyMedium
-                                ?.copyWith(color: Colors.black54),
+                                ?.copyWith(color: n.textSecondary),
                           ),
                         ],
                       ),
@@ -206,11 +203,16 @@ class _Content extends StatelessWidget {
                           cancellationLabel(l10n, incident.cancellationCategory!),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
+                            color: n.textPrimary,
                           ),
                         ),
                       if (incident.cancellationReason != null) ...[
                         const SizedBox(height: 4),
-                        Text(incident.cancellationReason!),
+                        Text(
+                          incident.cancellationReason!,
+                          style: textTheme.bodyMedium
+                              ?.copyWith(color: n.textPrimary),
+                        ),
                       ],
                     ],
                   ),
@@ -275,6 +277,7 @@ class _GuidanceSummaryCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     final cards = ref
         .watch(
@@ -297,7 +300,7 @@ class _GuidanceSummaryCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
       ),
@@ -310,7 +313,7 @@ class _GuidanceSummaryCard extends ConsumerWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.primary.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -327,13 +330,13 @@ class _GuidanceSummaryCard extends ConsumerWidget {
                       l10n.whileYouWait,
                       style: textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     Text(
                       general.title,
                       style: textTheme.bodySmall
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                   ],
                 ),
@@ -359,7 +362,7 @@ class _GuidanceSummaryCard extends ConsumerWidget {
                     child: Text(
                       topSteps[i],
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.foreground),
+                          ?.copyWith(color: n.textPrimary),
                     ),
                   ),
                 ],
@@ -390,6 +393,7 @@ class _ChatCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final unread = ref.watch(unreadChatProvider(incidentId));
 
     return InkWell(
@@ -398,10 +402,10 @@ class _ChatCard extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: n.card,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: unread ? AppColors.primary : Colors.black12,
+            color: unread ? AppColors.primary : n.border,
             width: unread ? 1.5 : 1,
           ),
         ),
@@ -411,7 +415,7 @@ class _ChatCard extends ConsumerWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: AppColors.primary.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -428,13 +432,13 @@ class _ChatCard extends ConsumerWidget {
                     l10n.chatWithDispatcher,
                     style: textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.foreground,
+                      color: n.textPrimary,
                     ),
                   ),
                   Text(
                     l10n.chatCardSubtitle,
                     style:
-                    textTheme.bodySmall?.copyWith(color: Colors.black54),
+                    textTheme.bodySmall?.copyWith(color: n.textSecondary),
                   ),
                 ],
               ),
@@ -456,7 +460,7 @@ class _ChatCard extends ConsumerWidget {
                   ),
                 ),
               ),
-            const Icon(Icons.chevron_right, color: Colors.black38),
+            Icon(Icons.chevron_right, color: n.textTertiary),
           ],
         ),
       ),
@@ -480,6 +484,7 @@ class _UnitsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     if (units.isEmpty) {
       // لسه مفيش وحدة: بنعرض رسالة الانتظار في أول حالة بس
@@ -500,7 +505,8 @@ class _UnitsSection extends StatelessWidget {
               Expanded(
                 child: Text(
                   l10n.noUnitsYet,
-                  style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                  style:
+                  textTheme.bodyMedium?.copyWith(color: n.textSecondary),
                 ),
               ),
             ],
@@ -520,7 +526,7 @@ class _UnitsSection extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               l10n.etaApproxNote,
-              style: textTheme.labelSmall?.copyWith(color: Colors.black45),
+              style: textTheme.labelSmall?.copyWith(color: n.textTertiary),
             ),
           ],
         ),
@@ -544,6 +550,7 @@ class _UnitTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     final color = unitColor(unit.type);
     final arrived = unit.status == UnitStatus.arrived;
@@ -577,26 +584,28 @@ class _UnitTile extends StatelessWidget {
                   title,
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.foreground,
+                    color: n.textPrimary,
                   ),
                 ),
                 Text(
                   unitStatusLabel(l10n, unit.status),
-                  style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+                  style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
                 ),
               ],
             ),
           ),
           if (arrived)
-            const Icon(Icons.check_circle, color: Color(0xFF1F9D8B))
+            Icon(Icons.check_circle, color: n.success)
           else
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   _distanceText(l10n, meters),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: n.textPrimary,
+                  ),
                 ),
                 Text(
                   '≈ ${unit.type.etaMinutes(meters)} ${l10n.minutesShort}',
@@ -619,13 +628,14 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: n.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -635,7 +645,7 @@ class _Card extends StatelessWidget {
             style: textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.bold,
               letterSpacing: 0.8,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
           const SizedBox(height: 12),
@@ -693,6 +703,7 @@ class _TimelineRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
     final highlighted = done || active;
 
     return IntrinsicHeight(
@@ -706,9 +717,9 @@ class _TimelineRow extends StatelessWidget {
                 height: 24,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: done ? AppColors.primary : Colors.white,
+                  color: done ? AppColors.primary : n.card,
                   border: Border.all(
-                    color: highlighted ? AppColors.primary : Colors.black26,
+                    color: highlighted ? AppColors.primary : n.borderStrong,
                     width: 2,
                   ),
                 ),
@@ -731,7 +742,7 @@ class _TimelineRow extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: done ? AppColors.primary : Colors.black12,
+                    color: done ? AppColors.primary : n.border,
                   ),
                 ),
             ],
@@ -744,7 +755,7 @@ class _TimelineRow extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontWeight: active ? FontWeight.bold : FontWeight.w500,
-                  color: highlighted ? AppColors.foreground : Colors.black45,
+                  color: highlighted ? n.textPrimary : n.textTertiary,
                 ),
               ),
             ),
@@ -769,6 +780,7 @@ class _DetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -783,9 +795,13 @@ class _DetailRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: textTheme.labelSmall?.copyWith(color: Colors.black54),
+                  style:
+                  textTheme.labelSmall?.copyWith(color: n.textSecondary),
                 ),
-                Text(value, style: textTheme.bodyMedium),
+                Text(
+                  value,
+                  style: textTheme.bodyMedium?.copyWith(color: n.textPrimary),
+                ),
               ],
             ),
           ),
@@ -804,6 +820,7 @@ class _ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final n = context.najda;
 
     return Center(
       child: Padding(
@@ -813,7 +830,11 @@ class _ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48, color: AppColors.primary),
             const SizedBox(height: 12),
-            Text(message, textAlign: TextAlign.center),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: n.textPrimary),
+            ),
             const SizedBox(height: 12),
             TextButton(onPressed: onRetry, child: Text(l10n.tryAgain)),
           ],

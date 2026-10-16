@@ -888,4 +888,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get themeDark => 'داكن';
+
+  @override
+  String get navResponder => 'المستجيب';
+
+  @override
+  String get responderTitle => 'وضع المستجيب';
+
+  @override
+  String get responderStatusLabel => 'حالتك';
+
+  @override
+  String get availAvailable => 'متاح';
+
+  @override
+  String get availBusy => 'مشغول';
+
+  @override
+  String get availOffline => 'غير متصل';
+
+  @override
+  String get availAvailableHint => 'ستصلك تنبيهات بالطوارئ القريبة.';
+
+  @override
+  String get availBusyHint => 'لن تصلك تنبيهات حاليًا.';
+
+  @override
+  String get availOfflineHint => 'أنت غير ظاهر ولن تصلك تنبيهات.';
+
+  @override
+  String get responderBusyOwnReport =>
+      'تم تعيينك مشغولًا لأن لديك بلاغًا نشطًا.';
+
+  @override
+  String get responderNeedsLocation =>
+      'لتكون متاحًا، شغّل الموقع واسمح بالموقع الدقيق ثم حاول مرة أخرى.';
+
+  @override
+  String get responderAlerts => 'التنبيهات';
+
+  @override
+  String get responderNoAlerts =>
+      'لا توجد تنبيهات الآن. ستظهر الطوارئ القريبة هنا عندما تكون متاحًا.';
+
+  @override
+  String get responderInfo =>
+      'عندما تكون متاحًا، يرى مركز العمليات موقعك وينبّهك بالطوارئ القريبة. ستعرف النوع والمسافة قبل أن تقبل.';
+
+  @override
+  String get checkingLocation => 'جارٍ التحقق من موقعك…';
 }

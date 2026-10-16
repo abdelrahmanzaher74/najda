@@ -51,12 +51,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(forgotPasswordControllerProvider).isLoading;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/login'),
@@ -79,7 +78,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         width: 80,
                         height: 80,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
+                          color: AppColors.primary.withValues(alpha: 0.12),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -95,7 +94,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       textAlign: TextAlign.center,
                       style: textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -103,7 +102,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       l10n.forgotSubtitle,
                       textAlign: TextAlign.center,
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                     const SizedBox(height: 32),
                     TextFormField(

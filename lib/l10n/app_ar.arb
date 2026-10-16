@@ -285,5 +285,20 @@
   "appearance": "المظهر",
   "themeSystem": "إعداد الجهاز",
   "themeLight": "فاتح",
-  "themeDark": "داكن"
+  "themeDark": "داكن",
+  "navResponder": "المستجيب",
+  "responderTitle": "وضع المستجيب",
+  "responderStatusLabel": "حالتك",
+  "availAvailable": "متاح",
+  "availBusy": "مشغول",
+  "availOffline": "غير متصل",
+  "availAvailableHint": "ستصلك تنبيهات بالطوارئ القريبة.",
+  "availBusyHint": "لن تصلك تنبيهات حاليًا.",
+  "availOfflineHint": "أنت غير ظاهر ولن تصلك تنبيهات.",
+  "responderBusyOwnReport": "تم تعيينك مشغولًا لأن لديك بلاغًا نشطًا.",
+  "responderNeedsLocation": "لتكون متاحًا، شغّل الموقع واسمح بالموقع الدقيق ثم حاول مرة أخرى.",
+  "responderAlerts": "التنبيهات",
+  "responderNoAlerts": "لا توجد تنبيهات الآن. ستظهر الطوارئ القريبة هنا عندما تكون متاحًا.",
+  "responderInfo": "عندما تكون متاحًا، يرى مركز العمليات موقعك وينبّهك بالطوارئ القريبة. ستعرف النوع والمسافة قبل أن تقبل.",
+  "checkingLocation": "جارٍ التحقق من موقعك…"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../app/theme.dart';
+import '../../../../core/map/map_theme.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/models/assigned_unit.dart';
 import '../unit_style.dart';
@@ -83,6 +84,7 @@ class _TrackingMapState extends State<TrackingMap> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final n = context.najda;
 
     final lines = <Polyline>[];
     final originMarkers = <Marker>[];
@@ -118,7 +120,7 @@ class _TrackingMapState extends State<TrackingMap> {
           Polyline(
             points: [current, widget.incident],
             strokeWidth: 2,
-            color: color.withValues(alpha: 0.35),
+            color: color.withValues(alpha: 0.4),
           ),
         );
       }
@@ -157,10 +159,7 @@ class _TrackingMapState extends State<TrackingMap> {
                 ),
               ),
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.najda',
-                ),
+                const ThemedTileLayer(),
                 PolylineLayer(polylines: lines),
                 MarkerLayer(markers: originMarkers),
                 MarkerLayer(
@@ -171,9 +170,9 @@ class _TrackingMapState extends State<TrackingMap> {
                       width: 48,
                       height: 48,
                       alignment: Alignment.topCenter,
-                      child: const Icon(
+                      child: Icon(
                         Icons.location_on,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                         size: 46,
                       ),
                     ),
@@ -194,7 +193,7 @@ class _TrackingMapState extends State<TrackingMap> {
                 children: [
                   _LegendChip(
                     icon: Icons.location_on,
-                    color: AppColors.foreground,
+                    color: n.textPrimary,
                     label: l10n.yourLocation,
                   ),
                   for (final type in typesPresent)
@@ -212,11 +211,12 @@ class _TrackingMapState extends State<TrackingMap> {
               top: 10,
               end: 10,
               child: Material(
-                color: Colors.white,
+                color: n.card,
                 shape: const CircleBorder(),
                 elevation: 2,
                 child: IconButton(
                   tooltip: l10n.showAll,
+                  color: n.textPrimary,
                   icon: const Icon(Icons.center_focus_strong),
                   onPressed: _fit,
                 ),
@@ -229,10 +229,10 @@ class _TrackingMapState extends State<TrackingMap> {
               end: 6,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                color: Colors.white.withValues(alpha: 0.8),
+                color: n.card.withValues(alpha: 0.8),
                 child: Text(
                   l10n.mapCredit,
-                  style: const TextStyle(fontSize: 10, color: Colors.black87),
+                  style: TextStyle(fontSize: 10, color: n.textSecondary),
                 ),
               ),
             ),
@@ -281,14 +281,16 @@ class _LegendChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.94),
+        color: n.card.withValues(alpha: 0.94),
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 4,
           ),
         ],
@@ -300,10 +302,10 @@ class _LegendChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
         ],

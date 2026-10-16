@@ -96,6 +96,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
   }
 
   InputDecoration _areaDecoration(String hint) {
+    final n = context.najda;
     final error = Theme.of(context).colorScheme.error;
     OutlineInputBorder border(Color color, [double width = 1]) {
       return OutlineInputBorder(
@@ -106,8 +107,8 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
 
     return InputDecoration(
       hintText: hint,
-      border: border(Colors.black12),
-      enabledBorder: border(Colors.black12),
+      border: border(n.border),
+      enabledBorder: border(n.border),
       focusedBorder: border(AppColors.primary, 1.5),
       errorBorder: border(error),
       focusedErrorBorder: border(error, 1.5),
@@ -118,6 +119,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(reportControllerProvider).isLoading;
     final locationState = ref.watch(currentLocationProvider);
     final hasLocation = locationState.asData?.value != null;
@@ -125,15 +127,11 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
     final sectionStyle = textTheme.labelMedium?.copyWith(
       fontWeight: FontWeight.bold,
       letterSpacing: 0.8,
-      color: AppColors.foreground,
+      color: n.textPrimary,
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.reportTitle),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: AppBar(title: Text(l10n.reportTitle)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -197,9 +195,9 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: n.card,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black12),
+                      border: Border.all(color: n.border),
                     ),
                     child: Row(
                       children: [
@@ -213,7 +211,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                             l10n.numberOfInjured,
                             style: textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.foreground,
+                              color: n.textPrimary,
                             ),
                           ),
                         ),
@@ -231,6 +229,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                             textAlign: TextAlign.center,
                             style: textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
+                              color: n.textPrimary,
                             ),
                           ),
                         ),
@@ -312,14 +311,15 @@ class _LocationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return state.when(
       loading: () => Container(
         height: 120,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: n.card,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.black12),
+          border: Border.all(color: n.border),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -332,7 +332,7 @@ class _LocationSection extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               l10n.gettingLocation,
-              style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+              style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
             ),
           ],
         ),
@@ -364,7 +364,7 @@ class _LocationSection extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.08),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -383,7 +383,7 @@ class _LocationSection extends StatelessWidget {
                     child: Text(
                       message,
                       style: textTheme.bodySmall?.copyWith(
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                   ),
@@ -426,7 +426,8 @@ class _CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = selected ? Colors.white : AppColors.foreground;
+    final n = context.najda;
+    final fg = selected ? Colors.white : n.textPrimary;
 
     return InkWell(
       onTap: onTap,
@@ -434,12 +435,12 @@ class _CategoryCard extends StatelessWidget {
       child: Container(
         height: 96,
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary : Colors.white,
+          color: selected ? AppColors.primary : n.card,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: selected
                 ? AppColors.primary
-                : AppColors.primary.withValues(alpha: 0.25),
+                : AppColors.primary.withValues(alpha: 0.3),
             width: 1.5,
           ),
         ),
@@ -476,6 +477,7 @@ class _RoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
     final enabled = onTap != null;
 
     return InkWell(
@@ -487,13 +489,13 @@ class _RoundButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled
-              ? (enabled ? AppColors.primary : Colors.black12)
-              : Colors.black.withValues(alpha: 0.06),
+              ? (enabled ? AppColors.primary : n.border)
+              : n.border,
         ),
         child: Icon(
           icon,
           size: 20,
-          color: filled ? Colors.white : AppColors.foreground,
+          color: filled ? Colors.white : n.textPrimary,
         ),
       ),
     );
@@ -513,6 +515,8 @@ class _EvidenceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final n = context.najda;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -520,9 +524,9 @@ class _EvidenceButton extends StatelessWidget {
         width: 100,
         height: 92,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: n.card,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.black26),
+          border: Border.all(color: n.borderStrong),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -532,7 +536,10 @@ class _EvidenceButton extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(color: n.textPrimary),
             ),
           ],
         ),

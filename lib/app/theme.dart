@@ -35,6 +35,9 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
   final Color warning;
   final Color warningBg;
 
+  /// لون الروابط والنصوص الحمرا الصغيرة (أفتح في الدارك للتباين)
+  final Color link;
+
   const NajdaColors({
     required this.card,
     required this.border,
@@ -47,6 +50,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
     required this.successBg,
     required this.warning,
     required this.warningBg,
+    required this.link,
   });
 
   static const light = NajdaColors(
@@ -61,6 +65,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
     successBg: Color(0xFFE3F1EE),
     warning: Color(0xFFB26A00),
     warningBg: Color(0xFFFFF4E0),
+    link: Color(0xFFD32F2F),
   );
 
   static const dark = NajdaColors(
@@ -75,6 +80,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
     successBg: Color(0xFF153530),
     warning: Color(0xFFFFB74D),
     warningBg: Color(0xFF3A2D14),
+    link: Color(0xFFEF5350),
   );
 
   @override
@@ -90,6 +96,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
     Color? successBg,
     Color? warning,
     Color? warningBg,
+    Color? link,
   }) {
     return NajdaColors(
       card: card ?? this.card,
@@ -103,6 +110,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
       successBg: successBg ?? this.successBg,
       warning: warning ?? this.warning,
       warningBg: warningBg ?? this.warningBg,
+      link: link ?? this.link,
     );
   }
 
@@ -122,6 +130,7 @@ class NajdaColors extends ThemeExtension<NajdaColors> {
       successBg: Color.lerp(successBg, other.successBg, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       warningBg: Color.lerp(warningBg, other.warningBg, t)!,
+      link: Color.lerp(link, other.link, t)!,
     );
   }
 }
@@ -141,9 +150,6 @@ class AppTheme {
     final isDark = brightness == Brightness.dark;
     final n = isDark ? NajdaColors.dark : NajdaColors.light;
     final scaffold = isDark ? const Color(0xFF121212) : AppColors.background;
-
-    // أحمر أفتح شوية في الدارك للنصوص الصغيرة والروابط (تباين أحسن)
-    final linkColor = isDark ? const Color(0xFFEF5350) : AppColors.primary;
 
     final scheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
@@ -207,12 +213,12 @@ class AppTheme {
           return TextStyle(
             fontSize: 12,
             fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-            color: selected ? linkColor : n.textSecondary,
+            color: selected ? n.link : n.textSecondary,
           );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
-          return IconThemeData(color: selected ? linkColor : n.textSecondary);
+          return IconThemeData(color: selected ? n.link : n.textSecondary);
         }),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -240,14 +246,14 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           shape: const StadiumBorder(),
           minimumSize: const Size(64, 52),
-          foregroundColor: linkColor,
+          foregroundColor: n.link,
           side: const BorderSide(color: AppColors.primary, width: 1.5),
           textStyle: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: linkColor,
+          foregroundColor: n.link,
           textStyle: const TextStyle(fontWeight: FontWeight.w600),
         ),
       ),

@@ -37,4 +37,14 @@ enum UserRole {
     UserRole.firefighter,
     UserRole.police,
   ].contains(this);
+
+  /// يقدر يبلّغ عن طوارئ لنفسه: المواطن، والمستجيب الأول (هو مواطن كمان).
+  bool get canReport =>
+      this == UserRole.citizen || this == UserRole.firstResponder;
+
+  /// بيستخدم شاشات المواطن (الشريط السفلي).
+  bool get usesCitizenApp => canReport;
+
+  /// موظف ميداني بس (إسعاف / إطفاء / شرطة): شاشاته /field من غير شاشات المواطن.
+  bool get isFieldOnly => isFieldRole && this != UserRole.firstResponder;
 }

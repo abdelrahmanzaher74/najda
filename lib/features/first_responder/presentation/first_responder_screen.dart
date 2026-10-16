@@ -12,8 +12,6 @@ import 'first_responder_controller.dart';
 
 const _maxFiles = 3;
 const _maxFileBytes = 5 * 1024 * 1024;
-const _successColor = Color(0xFF1F9D8B);
-const _warningColor = Color(0xFFB26A00);
 
 String _formatSize(int bytes) {
   if (bytes < 1024 * 1024) return '${(bytes / 1024).round()} KB';
@@ -35,14 +33,11 @@ class _FirstResponderScreenState extends ConsumerState<FirstResponderScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final n = context.najda;
     final state = ref.watch(firstResponderApplicationProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.frScreenTitle),
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: AppBar(title: Text(l10n.frScreenTitle)),
       body: SafeArea(
         child: state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -57,6 +52,7 @@ class _FirstResponderScreenState extends ConsumerState<FirstResponderScreen> {
                         ? error.message
                         : const UnknownFailure().message,
                     textAlign: TextAlign.center,
+                    style: TextStyle(color: n.textPrimary),
                   ),
                   TextButton(
                     onPressed: () =>
@@ -181,12 +177,13 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(firstResponderControllerProvider).isLoading;
 
     final sectionStyle = textTheme.labelMedium?.copyWith(
       fontWeight: FontWeight.bold,
       letterSpacing: 0.8,
-      color: AppColors.foreground,
+      color: n.textPrimary,
     );
 
     Widget introStep(String text) {
@@ -200,11 +197,18 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
             Expanded(
               child: Text(
                 text,
-                style: textTheme.bodySmall?.copyWith(color: AppColors.foreground),
+                style: textTheme.bodySmall?.copyWith(color: n.textPrimary),
               ),
             ),
           ],
         ),
+      );
+    }
+
+    OutlineInputBorder areaBorder(Color color, [double width = 1]) {
+      return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(color: color, width: width),
       );
     }
 
@@ -217,7 +221,7 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.08),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
@@ -236,7 +240,7 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
                         l10n.frIntroTitle,
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                     ),
@@ -245,8 +249,8 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.frIntroBody,
-                  style: textTheme.bodyMedium
-                      ?.copyWith(color: AppColors.foreground),
+                  style:
+                  textTheme.bodyMedium?.copyWith(color: n.textPrimary),
                 ),
                 const SizedBox(height: 4),
                 introStep(l10n.frStep1),
@@ -268,19 +272,9 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
             textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
               hintText: l10n.frMotivationHint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Colors.black12),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Colors.black12),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                const BorderSide(color: AppColors.primary, width: 1.5),
-              ),
+              border: areaBorder(n.border),
+              enabledBorder: areaBorder(n.border),
+              focusedBorder: areaBorder(AppColors.primary, 1.5),
             ),
             validator: (v) => (v == null || v.trim().length < 20)
                 ? l10n.frMotivationTooShort
@@ -293,7 +287,7 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
           const SizedBox(height: 4),
           Text(
             l10n.frCertificatesHint,
-            style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+            style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
           ),
           const SizedBox(height: 10),
           OutlinedButton.icon(
@@ -306,9 +300,9 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
               margin: const EdgeInsets.only(top: 8),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: n.card,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color: n.border),
               ),
               child: Row(
                 children: [
@@ -329,19 +323,20 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: AppColors.foreground,
+                            color: n.textPrimary,
                           ),
                         ),
                         Text(
                           _formatSize(doc.sizeBytes),
                           style: textTheme.labelSmall
-                              ?.copyWith(color: Colors.black54),
+                              ?.copyWith(color: n.textSecondary),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
                     tooltip: l10n.removeFile,
+                    color: n.textSecondary,
                     icon: const Icon(Icons.close),
                     onPressed: () => setState(() {
                       _docs.remove(doc);
@@ -383,7 +378,7 @@ class _ApplyFormState extends ConsumerState<_ApplyForm> {
                         child: Text(
                           l10n.frConfirmation,
                           style: textTheme.bodySmall
-                              ?.copyWith(color: AppColors.foreground),
+                              ?.copyWith(color: n.textPrimary),
                         ),
                       ),
                     ),
@@ -435,12 +430,13 @@ class _StatusView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     final (IconData icon, Color color, String title, String body) =
     switch (app.status) {
       ApplicationStatus.approved => (
       Icons.verified,
-      _successColor,
+      n.success,
       l10n.frStatusApprovedTitle,
       l10n.frStatusApprovedBody,
       ),
@@ -452,7 +448,7 @@ class _StatusView extends ConsumerWidget {
       ),
       _ => (
       Icons.hourglass_top,
-      _warningColor,
+      n.warning,
       l10n.frStatusSubmittedTitle,
       l10n.frStatusSubmittedBody,
       ),
@@ -468,7 +464,7 @@ class _StatusView extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -489,14 +485,14 @@ class _StatusView extends ConsumerWidget {
                       title,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       body,
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.foreground),
+                          ?.copyWith(color: n.textPrimary),
                     ),
                   ],
                 ),
@@ -511,7 +507,10 @@ class _StatusView extends ConsumerWidget {
             (app.reviewNotes?.isNotEmpty ?? false)) ...[
           _InfoCard(
             title: l10n.frReviewerNotes,
-            child: Text(app.reviewNotes!),
+            child: Text(
+              app.reviewNotes!,
+              style: textTheme.bodyMedium?.copyWith(color: n.textPrimary),
+            ),
           ),
           const SizedBox(height: 16),
         ],
@@ -524,17 +523,20 @@ class _StatusView extends ConsumerWidget {
             children: [
               Text(
                 '${l10n.frSubmittedOn}: $submittedOn',
-                style: textTheme.bodySmall?.copyWith(color: Colors.black54),
+                style: textTheme.bodySmall?.copyWith(color: n.textSecondary),
               ),
               const SizedBox(height: 8),
-              Text(app.motivation, style: textTheme.bodyMedium),
+              Text(
+                app.motivation,
+                style: textTheme.bodyMedium?.copyWith(color: n.textPrimary),
+              ),
               if (app.documents.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 Text(
                   l10n.frDocuments,
                   style: textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.foreground,
+                    color: n.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -543,17 +545,18 @@ class _StatusView extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.attach_file,
                           size: 16,
-                          color: Colors.black54,
+                          color: n.textSecondary,
                         ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             d.fileName,
                             overflow: TextOverflow.ellipsis,
-                            style: textTheme.bodySmall,
+                            style: textTheme.bodySmall
+                                ?.copyWith(color: n.textPrimary),
                           ),
                         ),
                       ],
@@ -593,13 +596,14 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: n.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: n.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,7 +613,7 @@ class _InfoCard extends StatelessWidget {
             style: textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.bold,
               letterSpacing: 0.8,
-              color: AppColors.foreground,
+              color: n.textPrimary,
             ),
           ),
           const SizedBox(height: 10),

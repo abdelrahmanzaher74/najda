@@ -73,6 +73,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final id = widget.incidentId;
 
     final me = ref.watch(sessionProvider)?.id;
@@ -94,15 +95,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(l10n.chatTitle),
             Text(
               '${l10n.reportNumber} #$id',
-              style: textTheme.labelSmall?.copyWith(color: Colors.black54),
+              style: textTheme.labelSmall?.copyWith(color: n.textSecondary),
             ),
           ],
         ),
@@ -125,6 +124,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                               ? error.message
                               : const UnknownFailure().message,
                           textAlign: TextAlign.center,
+                          style: TextStyle(color: n.textPrimary),
                         ),
                         TextButton(
                           onPressed: () =>
@@ -161,16 +161,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
-                color: Colors.black.withValues(alpha: 0.04),
+                decoration: BoxDecoration(
+                  color: n.card,
+                  border: Border(top: BorderSide(color: n.border)),
+                ),
                 child: Row(
                   children: [
-                    const Icon(Icons.lock_outline, size: 18, color: Colors.black54),
+                    Icon(Icons.lock_outline, size: 18, color: n.textSecondary),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         l10n.chatClosed,
                         style: textTheme.bodySmall
-                            ?.copyWith(color: Colors.black54),
+                            ?.copyWith(color: n.textSecondary),
                       ),
                     ),
                   ],
@@ -238,6 +241,7 @@ class _EmptyChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final n = context.najda;
 
     return Center(
       child: Padding(
@@ -257,7 +261,7 @@ class _EmptyChat extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
-                  ?.copyWith(color: Colors.black54),
+                  ?.copyWith(color: n.textSecondary),
             ),
           ],
         ),
@@ -272,6 +276,8 @@ class _AdminJoinedNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final accent = chatRoleAccent(UserRole.admin, dark: dark);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -279,7 +285,7 @@ class _AdminJoinedNotice extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: chatRoleColor(UserRole.admin).withValues(alpha: 0.1),
+            color: accent.withValues(alpha: 0.14),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
@@ -287,7 +293,7 @@ class _AdminJoinedNotice extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: chatRoleColor(UserRole.admin),
+              color: accent,
             ),
           ),
         ),
@@ -306,7 +312,10 @@ class _MessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
-    final roleColor = chatRoleColor(message.senderRole);
+    final n = context.najda;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final badgeColor = chatRoleColor(message.senderRole);
+    final accent = chatRoleAccent(message.senderRole, dark: dark);
     final time = MaterialLocalizations.of(context).formatTimeOfDay(
       TimeOfDay.fromDateTime(message.sentAt),
     );
@@ -337,7 +346,7 @@ class _MessageBubble extends StatelessWidget {
                         message.senderName,
                         style: textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
+                          color: n.textPrimary,
                         ),
                       ),
                       Container(
@@ -346,7 +355,7 @@ class _MessageBubble extends StatelessWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: roleColor,
+                          color: badgeColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -365,10 +374,10 @@ class _MessageBubble extends StatelessWidget {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
-                  color: mine ? AppColors.primary : Colors.white,
+                  color: mine ? AppColors.primary : n.card,
                   border: mine
                       ? null
-                      : Border.all(color: roleColor.withValues(alpha: 0.35)),
+                      : Border.all(color: accent.withValues(alpha: 0.4)),
                   borderRadius: BorderRadiusDirectional.only(
                     topStart: const Radius.circular(18),
                     topEnd: const Radius.circular(18),
@@ -379,7 +388,7 @@ class _MessageBubble extends StatelessWidget {
                 child: Text(
                   message.content,
                   style: textTheme.bodyMedium?.copyWith(
-                    color: mine ? Colors.white : AppColors.foreground,
+                    color: mine ? Colors.white : n.textPrimary,
                   ),
                 ),
               ),
@@ -387,7 +396,7 @@ class _MessageBubble extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 3, left: 4, right: 4),
                 child: Text(
                   time,
-                  style: textTheme.labelSmall?.copyWith(color: Colors.black45),
+                  style: textTheme.labelSmall?.copyWith(color: n.textTertiary),
                 ),
               ),
             ],

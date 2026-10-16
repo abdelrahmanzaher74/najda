@@ -1813,6 +1813,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// No description provided for @navResponder.
+  ///
+  /// In en, this message translates to:
+  /// **'Responder'**
+  String get navResponder;
+
+  /// No description provided for @responderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Responder mode'**
+  String get responderTitle;
+
+  /// No description provided for @responderStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your status'**
+  String get responderStatusLabel;
+
+  /// No description provided for @availAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get availAvailable;
+
+  /// No description provided for @availBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Busy'**
+  String get availBusy;
+
+  /// No description provided for @availOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get availOffline;
+
+  /// No description provided for @availAvailableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You’ll be alerted to nearby emergencies.'**
+  String get availAvailableHint;
+
+  /// No description provided for @availBusyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You won’t receive alerts for now.'**
+  String get availBusyHint;
+
+  /// No description provided for @availOfflineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re hidden and won’t receive alerts.'**
+  String get availOfflineHint;
+
+  /// No description provided for @responderBusyOwnReport.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re marked busy because you have an active report.'**
+  String get responderBusyOwnReport;
+
+  /// No description provided for @responderNeedsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'To be available, turn on location and allow precise location, then try again.'**
+  String get responderNeedsLocation;
+
+  /// No description provided for @responderAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get responderAlerts;
+
+  /// No description provided for @responderNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No alerts right now. Nearby emergencies will appear here when you’re available.'**
+  String get responderNoAlerts;
+
+  /// No description provided for @responderInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'While you’re available, dispatchers can see your location and alert you to nearby emergencies. You’ll see the type and distance before you accept.'**
+  String get responderInfo;
+
+  /// No description provided for @checkingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking your location…'**
+  String get checkingLocation;
 }
 
 class _AppLocalizationsDelegate

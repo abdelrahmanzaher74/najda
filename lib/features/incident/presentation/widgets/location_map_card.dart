@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/location/app_location.dart';
+import '../../../../core/map/map_theme.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// خريطة للعرض بس. الدبوس بيتحدد من الـ GPS الحقيقي،
@@ -21,6 +22,7 @@ class LocationMapCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final point = LatLng(location.latitude, location.longitude);
     final accuracy = location.accuracyMeters;
 
@@ -42,10 +44,7 @@ class LocationMapCard extends StatelessWidget {
                 ),
               ),
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.najda',
-                ),
+                const ThemedTileLayer(),
                 MarkerLayer(
                   markers: [
                     Marker(
@@ -75,11 +74,11 @@ class LocationMapCard extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.94),
+                  color: n.card.withValues(alpha: 0.94),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 8,
                     ),
                   ],
@@ -110,7 +109,7 @@ class LocationMapCard extends StatelessWidget {
                             style: textTheme.labelSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.6,
-                              color: AppColors.foreground,
+                              color: n.textPrimary,
                             ),
                           ),
                           Text(
@@ -119,14 +118,14 @@ class LocationMapCard extends StatelessWidget {
                                 '${accuracy == null ? '' : '  ·  ±${accuracy.round()} m'}',
                             style: textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: AppColors.foreground,
+                              color: n.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             l10n.locationAuto,
                             style: textTheme.labelSmall
-                                ?.copyWith(color: Colors.black54),
+                                ?.copyWith(color: n.textSecondary),
                           ),
                         ],
                       ),
@@ -142,10 +141,10 @@ class LocationMapCard extends StatelessWidget {
               end: 6,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                color: Colors.white.withValues(alpha: 0.8),
+                color: n.card.withValues(alpha: 0.8),
                 child: Text(
                   l10n.mapCredit,
-                  style: const TextStyle(fontSize: 10, color: Colors.black87),
+                  style: TextStyle(fontSize: 10, color: n.textSecondary),
                 ),
               ),
             ),

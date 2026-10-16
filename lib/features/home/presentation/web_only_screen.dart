@@ -13,6 +13,7 @@ class WebOnlyScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
 
     return Scaffold(
       body: SafeArea(
@@ -36,7 +37,7 @@ class WebOnlyScreen extends ConsumerWidget {
                     textAlign: TextAlign.center,
                     style: textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.foreground,
+                      color: n.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -44,7 +45,7 @@ class WebOnlyScreen extends ConsumerWidget {
                     l10n.webOnlyMessage,
                     textAlign: TextAlign.center,
                     style:
-                    textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                    textTheme.bodyMedium?.copyWith(color: n.textSecondary),
                   ),
                   const SizedBox(height: 32),
                   FilledButton(

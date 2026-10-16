@@ -285,5 +285,20 @@
   "appearance": "Appearance",
   "themeSystem": "Device setting",
   "themeLight": "Light",
-  "themeDark": "Dark"
+  "themeDark": "Dark",
+  "navResponder": "Responder",
+  "responderTitle": "Responder mode",
+  "responderStatusLabel": "Your status",
+  "availAvailable": "Available",
+  "availBusy": "Busy",
+  "availOffline": "Offline",
+  "availAvailableHint": "You’ll be alerted to nearby emergencies.",
+  "availBusyHint": "You won’t receive alerts for now.",
+  "availOfflineHint": "You’re hidden and won’t receive alerts.",
+  "responderBusyOwnReport": "You’re marked busy because you have an active report.",
+  "responderNeedsLocation": "To be available, turn on location and allow precise location, then try again.",
+  "responderAlerts": "Alerts",
+  "responderNoAlerts": "No alerts right now. Nearby emergencies will appear here when you’re available.",
+  "responderInfo": "While you’re available, dispatchers can see your location and alert you to nearby emergencies. You’ll see the type and distance before you accept.",
+  "checkingLocation": "Checking your location…"
 }

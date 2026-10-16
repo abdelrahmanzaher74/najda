@@ -65,7 +65,15 @@ class _CancelSheetState extends ConsumerState<CancelSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(cancelControllerProvider).isLoading;
+
+    OutlineInputBorder border(Color color, [double width = 1]) {
+      return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(color: color, width: width),
+      );
+    }
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -83,13 +91,13 @@ class _CancelSheetState extends ConsumerState<CancelSheet> {
               l10n.cancelTitle,
               style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.foreground,
+                color: n.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               l10n.cancelWhy,
-              style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
+              style: textTheme.bodyMedium?.copyWith(color: n.textSecondary),
             ),
             const SizedBox(height: 16),
             Wrap(
@@ -100,7 +108,18 @@ class _CancelSheetState extends ConsumerState<CancelSheet> {
                   ChoiceChip(
                     label: Text(cancellationLabel(l10n, c)),
                     selected: _category == c,
-                    selectedColor: AppColors.primary.withValues(alpha: 0.15),
+                    showCheckmark: false,
+                    backgroundColor: n.card,
+                    selectedColor: AppColors.primary.withValues(alpha: 0.2),
+                    side: BorderSide(
+                      color: _category == c ? AppColors.primary : n.border,
+                    ),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: _category == c
+                          ? AppColors.primary
+                          : n.textPrimary,
+                    ),
                     onSelected: (_) => setState(() {
                       _category = c;
                       _error = null;
@@ -116,18 +135,9 @@ class _CancelSheetState extends ConsumerState<CancelSheet> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: l10n.cancelReasonHint,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(color: Colors.black12),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide:
-                  const BorderSide(color: AppColors.primary, width: 1.5),
-                ),
+                border: border(n.border),
+                enabledBorder: border(n.border),
+                focusedBorder: border(AppColors.primary, 1.5),
               ),
             ),
             if (_error != null) ...[

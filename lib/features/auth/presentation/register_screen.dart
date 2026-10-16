@@ -123,14 +123,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final n = context.najda;
     final isLoading = ref.watch(registerControllerProvider).isLoading;
 
     final linkStyle = textTheme.bodySmall?.copyWith(
-      color: AppColors.primary,
+      color: n.link,
       fontWeight: FontWeight.w600,
       decoration: TextDecoration.underline,
     );
-    final noteStyle = textTheme.bodySmall?.copyWith(color: Colors.black54);
+    final noteStyle = textTheme.bodySmall?.copyWith(color: n.textSecondary);
 
     return Scaffold(
       body: SafeArea(
@@ -150,7 +151,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       textAlign: TextAlign.center,
                       style: textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.foreground,
+                        color: n.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -158,7 +159,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       l10n.registerSubtitle,
                       textAlign: TextAlign.center,
                       style: textTheme.bodyMedium
-                          ?.copyWith(color: Colors.black54),
+                          ?.copyWith(color: n.textSecondary),
                     ),
                     const SizedBox(height: 24),
 
@@ -257,7 +258,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               '+20',
                               style: textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.foreground,
+                                color: n.textPrimary,
                               ),
                             ),
                           ),
@@ -289,6 +290,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                     DropdownButtonFormField<Gender>(
                       initialValue: _gender,
+                      dropdownColor: n.card,
                       decoration: InputDecoration(
                         labelText: l10n.gender,
                         prefixIcon: const Icon(Icons.wc_outlined),
@@ -368,7 +370,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   child: Text.rich(
                                     TextSpan(
                                       style: textTheme.bodySmall?.copyWith(
-                                        color: AppColors.foreground,
+                                        color: n.textPrimary,
                                       ),
                                       children: [
                                         TextSpan(text: l10n.agreePrefix),
@@ -428,7 +430,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       alignment: WrapAlignment.center,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Text(l10n.haveAccount),
+                        Text(
+                          l10n.haveAccount,
+                          style: TextStyle(color: n.textPrimary),
+                        ),
                         TextButton(
                           onPressed: () => context.go('/login'),
                           child: Text(l10n.signIn),
