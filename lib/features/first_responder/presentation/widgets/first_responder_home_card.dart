@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../auth/data/models/user_role.dart';
+import '../../../auth/presentation/session_controller.dart';
 import '../../data/first_responder_providers.dart';
 import '../../data/models/first_responder_application.dart';
 
@@ -12,6 +14,10 @@ class FirstResponderHomeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // مستجيب أول فعلًا: مفيش داعي للكارت
+    final role = ref.watch(sessionProvider)?.role;
+    if (role == UserRole.firstResponder) return const SizedBox.shrink();
+
     final state = ref.watch(firstResponderApplicationProvider);
 
     // أثناء التحميل أو لو حصل خطأ مبنظهرش حاجة (الحالة مش معروفة)

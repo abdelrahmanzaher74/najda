@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../features/auth/data/models/user_role.dart';
 import '../features/auth/presentation/session_controller.dart';
 import '../features/incident/presentation/pending_report_controller.dart';
 
@@ -42,7 +41,7 @@ class _PendingSyncState extends ConsumerState<PendingSync>
 
   void _sync() {
     final user = ref.read(sessionProvider);
-    if (user == null || user.role != UserRole.citizen) return;
+    if (user == null || !user.role.usesCitizenApp) return;
     ref.read(pendingReportControllerProvider.notifier).trySend();
   }
 
@@ -57,7 +56,7 @@ class _PendingSyncState extends ConsumerState<PendingSync>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(sessionProvider);
-    if (user != null && user.role == UserRole.citizen) {
+    if (user != null && user.role.usesCitizenApp) {
       // بنراقبه عشان يفضل شغال ويحمّل البلاغ المحفوظ
       ref.watch(pendingReportControllerProvider);
     }

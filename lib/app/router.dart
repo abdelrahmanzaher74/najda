@@ -23,14 +23,18 @@ import '../features/incident/presentation/tracking_screen.dart';
 import '../features/medical/data/medical_providers.dart';
 import '../features/medical/presentation/medical_history_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/responder/presentation/responder_screen.dart';
 import 'citizen_shell.dart';
 
 const _publicRoutes = ['/', '/login', '/register', '/forgot-password'];
 const _medicalHistoryRoute = '/citizen/medical-history';
 
+/// الشاشة الرئيسية لكل دور:
+/// المواطن والمستجيب الأول (هو مواطن كمان) ← شاشات المواطن،
+/// موظف ميداني (إسعاف/إطفاء/شرطة) ← /field، وباقي الأدوار ← الويب.
 String _homeFor(UserRole role) {
-  if (role == UserRole.citizen) return '/citizen';
-  if (role.isFieldRole) return '/field';
+  if (role.usesCitizenApp) return '/citizen';
+  if (role.isFieldOnly) return '/field';
   return '/web-only';
 }
 
@@ -65,10 +69,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (isPublic || location == '/home') return home;
 
       // حماية الشاشات حسب الـ role
-      if (location.startsWith('/citizen') && user.role != UserRole.citizen) {
+      if (location.startsWith('/citizen') && !user.role.usesCitizenApp) {
         return home;
       }
-      if (location.startsWith('/field') && !user.role.isFieldRole) {
+      if (location == '/citizen/responder' &&
+          user.role != UserRole.firstResponder) {
+        return home;
+      }
+      if (location.startsWith('/field') && !user.role.isFieldOnly) {
         return home;
       }
       if (location == '/web-only' && user.role.isMobileRole) return home;
@@ -111,11 +119,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SizedBox.shrink(),
       ),
 
-      // شاشات المواطن الرئيسية مع الشريط السفلي
+      // شاشات المواطن (والمستجيب الأول) الرئيسية مع الشريط السفلي
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             CitizenShell(navigationShell: navigationShell),
         branches: [
+          // 0: الرئيسية
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -124,6 +133,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // 1: المستجيب (للمستجيب الأول بس)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/citizen/responder',
+                builder: (context, state) => const ResponderScreen(),
+              ),
+            ],
+          ),
+          // 2: البطاقة الطبية
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -133,6 +152,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // 3: البروفايل
           StatefulShellBranch(
             routes: [
               GoRoute(
